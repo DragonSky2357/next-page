@@ -1,4 +1,4 @@
-package com.dragonsky.nextpage.domain.commoncode.command.model.entity.id;
+package com.dragonsky.nextpage.domain.commoncode.domain.id;
 
 import jakarta.persistence.Embeddable;
 import lombok.Getter;

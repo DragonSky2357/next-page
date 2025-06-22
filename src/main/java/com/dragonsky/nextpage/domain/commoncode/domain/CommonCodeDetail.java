@@ -1,15 +1,10 @@
-package com.dragonsky.nextpage.domain.commoncode.command.model.entity;
+package com.dragonsky.nextpage.domain.commoncode.domain;
 
-import com.dragonsky.nextpage.domain.commoncode.command.model.entity.id.CommonCodeId;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.UpdateTimestamp;
-
-import java.time.LocalDateTime;
 
 @Entity
 @Table(

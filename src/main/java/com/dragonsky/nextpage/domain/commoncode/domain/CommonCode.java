@@ -1,4 +1,4 @@
-package com.dragonsky.nextpage.domain.commoncode.command.model.entity;
+package com.dragonsky.nextpage.domain.commoncode.domain;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
