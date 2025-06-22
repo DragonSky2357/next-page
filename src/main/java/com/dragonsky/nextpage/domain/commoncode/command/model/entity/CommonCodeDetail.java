@@ -1,5 +1,6 @@
 package com.dragonsky.nextpage.domain.commoncode.command.model.entity;
 
+import com.dragonsky.nextpage.domain.commoncode.command.model.entity.id.CommonCodeId;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -15,7 +16,7 @@ import java.time.LocalDateTime;
         name = "common_code_detail",
         uniqueConstraints = {
                 @UniqueConstraint(columnNames = {"group_code", "code"}),
-                @UniqueConstraint(columnNames = {"group_code", "group_seq"})
+                @UniqueConstraint(columnNames = {"group_code", "sort_order"})
         }
 )
 @SQLDelete(sql = "UPDATE common_code_detail SET is_active = false WHERE id = ?")
@@ -27,9 +28,8 @@ public class CommonCodeDetail extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "group_code", nullable = false)
-    private CommonCode group;
+    @Column(name = "group_code", length = 30, nullable = false)
+    private String groupCode;
 
     @Column(length = 30, nullable = false)
     private String code;
@@ -42,12 +42,4 @@ public class CommonCodeDetail extends BaseEntity {
 
     @Column(length = 255, nullable = false)
     private String description;
-
-    @CreationTimestamp
-    @Column(name = "created_at", updatable = false, nullable = false)
-    private LocalDateTime createdAt;
-
-    @UpdateTimestamp
-    @Column(name = "updated_at", nullable = false)
-    private LocalDateTime updatedAt;
 }
