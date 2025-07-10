@@ -1,7 +1,7 @@
-package com.dragonsky.nextpage.infrastructure.member.jpa.query;
+package com.dragonsky.nextpage.infrastructure.member.jpa.reader;
 
 import com.dragonsky.nextpage.domain.member.entity.Member;
-import com.dragonsky.nextpage.domain.member.repository.query.MemberReader;
+import com.dragonsky.nextpage.domain.member.repository.reader.MemberReader;
 import com.dragonsky.nextpage.infrastructure.member.jpa.MemberJpaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -23,6 +23,9 @@ public class MemberReaderImpl implements MemberReader {
     public Optional<Member> findByEmail(String email) {
         return memberJpaRepository.findByEmail(email);
     }
+
+    @Override
+    public Optional<Member> findByNickname(String nickname) {return memberJpaRepository.findByNickname(nickname);}
 
     @Override
     public boolean existsByEmail(String email) {

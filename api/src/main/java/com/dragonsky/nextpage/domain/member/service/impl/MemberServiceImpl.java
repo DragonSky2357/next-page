@@ -1,40 +1,47 @@
 package com.dragonsky.nextpage.domain.member.service.impl;
 
-import com.dragonsky.nextpage.application.member.converter.MemberPresentationConverter;
-import com.dragonsky.nextpage.application.member.dto.request.MemberRegistrationDto;
+import com.dragonsky.nextpage.application.member.dto.input.MemberRegistrationInput;
+import com.dragonsky.nextpage.domain.member.converter.MemberConverter;
 import com.dragonsky.nextpage.domain.member.entity.Member;
 import com.dragonsky.nextpage.domain.member.exception.MemberErrorCode;
 import com.dragonsky.nextpage.domain.member.exception.MemberException;
-import com.dragonsky.nextpage.domain.member.repository.command.MemberStore;
-import com.dragonsky.nextpage.domain.member.repository.query.MemberReader;
+import com.dragonsky.nextpage.domain.member.repository.store.MemberStore;
+import com.dragonsky.nextpage.domain.member.repository.reader.MemberReader;
 import com.dragonsky.nextpage.domain.member.service.MemberService;
 import com.dragonsky.nextpage.util.security.PasswordEncoderUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import static com.dragonsky.nextpage.domain.member.exception.MemberErrorCode.*;
+
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class MemberServiceImpl implements MemberService {
 
-    private final MemberPresentationConverter memberConverter;
+    private final MemberConverter memberConverter;
     private final MemberStore memberStore;
     private final MemberReader memberReader;
     private final PasswordEncoderUtil passwordEncoderUtil;
 
     @Override
     @Transactional
-    public Long register(MemberRegistrationDto dto) {
-        validateDuplicate(dto);
+    public Long register(MemberRegistrationInput input) {
+        validateDuplicate(input);
 
-        Member member = createMember(dto);
+        Member member = createMember(input);
         return memberStore.save(member).getId();
     }
 
-    private void validateDuplicate(MemberRegistrationDto dto) {
-        validateDuplicateEmail(dto.email());
-        validateDuplicateNickname(dto.nickname());
+    @Override
+    public Member getMemberByEmail(String email) {
+        return findMember("email",email);
+    }
+
+    private void validateDuplicate(MemberRegistrationInput input) {
+        validateDuplicateEmail(input.email());
+        validateDuplicateNickname(input.nickname());
     }
 
     private void validateDuplicateEmail(String email) {
@@ -49,12 +56,24 @@ public class MemberServiceImpl implements MemberService {
         }
     }
 
-    private Member createMember(MemberRegistrationDto dto) {
-        String encodedPassword = passwordEncoderUtil.encode(dto.password());
+    private Member createMember(MemberRegistrationInput input) {
+        String encodedPassword = passwordEncoderUtil.encode(input.password());
 
-        Member member = memberConverter.toEntity(dto);
+        Member member = memberConverter.toEntity(input, encodedPassword);
         member.setPassword(encodedPassword);
 
         return member;
+    }
+
+    private Member findMember(String searchType, String value){
+        return switch (searchType) {
+            case "id" -> memberReader.findById(Long.parseLong(value))
+                    .orElseThrow(() -> new MemberException(MEMBER_NOT_FOUND));
+            case "email" -> memberReader.findByEmail(value)
+                    .orElseThrow(() -> new MemberException(MEMBER_NOT_FOUND));
+            case "nickname" -> memberReader.findByNickname(value)
+                    .orElseThrow(() -> new MemberException(MEMBER_NOT_FOUND));
+            default -> throw new MemberException(UNSUPPORTED_SEARCH_TYPE);
+        };
     }
 }
