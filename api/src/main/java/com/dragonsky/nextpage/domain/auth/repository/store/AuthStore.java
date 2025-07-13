@@ -1,4 +1,8 @@
 package com.dragonsky.nextpage.domain.auth.repository.store;
 
-public class AuthStore {
+import com.dragonsky.nextpage.domain.auth.vo.RefreshToken;
+
+public interface AuthStore {
+    void saveRefreshToken(long memberId, RefreshToken refreshToken);
+    boolean deleteRefreshToken(long memberId);
 }

@@ -1,4 +1,7 @@
 package com.dragonsky.nextpage.domain.auth.repository.reader;
 
-public class AuthReader {
+import com.dragonsky.nextpage.domain.auth.vo.RefreshToken;
+
+public interface AuthReader {
+    RefreshToken findRefreshToken(long memberId);
 }

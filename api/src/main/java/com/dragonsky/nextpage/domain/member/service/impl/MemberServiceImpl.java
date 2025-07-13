@@ -26,7 +26,6 @@ public class MemberServiceImpl implements MemberService {
     private final PasswordEncoderUtil passwordEncoderUtil;
 
     @Override
-    @Transactional
     public Long register(MemberRegistrationInput input) {
         validateDuplicate(input);
 

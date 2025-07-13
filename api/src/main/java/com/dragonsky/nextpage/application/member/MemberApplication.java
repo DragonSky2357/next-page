@@ -17,6 +17,7 @@ public class MemberApplication {
     private final MemberService memberService;
     private final MemberApplicationConverter memberConverter;
 
+    @Transactional
     public MemberRegistrationResponse register(MemberRegistrationInput memberRegistrationInput) {
         Long memberId = memberService.register(memberRegistrationInput);
         return memberConverter.toResponse(memberId);
