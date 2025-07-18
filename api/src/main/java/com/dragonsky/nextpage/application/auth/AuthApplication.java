@@ -26,7 +26,6 @@ public class AuthApplication {
 
         var loginResult = authService.login(member, loginInput.password());
 
-        // TODO redis에 refresh token 넣어야함
         return authConverter.toResponse(loginResult.accessToken(), loginResult.refreshToken());
     }
 }
