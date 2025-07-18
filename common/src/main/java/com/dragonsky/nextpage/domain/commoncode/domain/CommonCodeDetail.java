@@ -19,22 +19,18 @@ import org.hibernate.annotations.SQLDelete;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class CommonCodeDetail extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @EmbeddedId
+    private CodeId id;
 
-    @Column(name = "group_code", length = 30, nullable = false)
-    private String groupCode;
-
-    @Column(length = 30, nullable = false)
-    private String code;
-
-    @Column(name = "sort_order ", nullable = false, columnDefinition = "INT DEFAULT 1")
-    private Integer sortOrder = 1;
+    @Column(nullable = false)
+    private Integer codeValue;
 
     @Column(length = 50, nullable = false)
     private String name;
 
     @Column(length = 255, nullable = false)
     private String description;
+
+    @Column(name = "sort_order ", nullable = false, columnDefinition = "INT DEFAULT 1")
+    private Integer sortOrder = 1;
 }
