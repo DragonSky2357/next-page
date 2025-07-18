@@ -1,4 +1,4 @@
-package com.dragonsky.nextpage.presentation.review.dto;
+package com.dragonsky.nextpage.presentation.review.dto.request;
 
 import jakarta.validation.constraints.*;
 
@@ -16,19 +16,20 @@ public record CreateReviewRequest(
         @Max(value = 5, message = "평점은 5 이하이어야 합니다.")
         Integer rating,
 
-        @NotNull(message = "완독은 필수 항목 입니다.")
-        Long statusCode,
-
-        @NotNull(message = "카데고리는 필수 항목 입니다.")
-        Long categoryCode,
-
-        @NotNull(message = "태그는 필수 항목입니다.")
-        Long tagCode,
-
         @Size(max = 255, message = "검색 키워드는 최대 255자까지 입력 가능합니다.")
         String searchKeywords,
+
+        @NotNull(message = "완독은 필수 항목 입니다.")
+        Integer statusCode,
+
+        @NotNull(message = "카데고리는 필수 항목 입니다.")
+        Integer categoryCode,
+
+        @NotNull(message = "태그는 필수 항목입니다.")
+        Integer tagCode,
 
         @NotNull(message = "공개 여부를 선택해주세요.")
         Boolean isPrivate
 
-) {}
+) {
+}

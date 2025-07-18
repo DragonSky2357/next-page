@@ -1,13 +1,16 @@
 package com.dragonsky.nextpage.application.review.dto.request;
 
+import lombok.Builder;
+
+@Builder
 public record CreateReviewInput(
     Long authorId,
     String title,
     String content,
     Integer rating,
-    Long statusCode,
-    Long categoryCode,
-    Long tagCode,
+    Integer statusCode,
+    Integer categoryCode,
+    Integer tagCode,
     String searchKeywords,
     Boolean isPrivate
 ) {
