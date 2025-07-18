@@ -1,4 +1,4 @@
-package com.dragonsky.nextpage.config.security.annotation;
+package com.dragonsky.nextpage.domain.auth.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -7,5 +7,5 @@ import java.lang.annotation.Target;
 
 @Target(ElementType.PARAMETER)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface LoginMember {
+public @interface CurrentUser {
 }
