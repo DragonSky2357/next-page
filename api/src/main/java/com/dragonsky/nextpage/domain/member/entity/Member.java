@@ -9,7 +9,13 @@ import lombok.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
-@Table(name = "member")
+@Table(
+        name = "member",
+        indexes = {
+                @Index(name = "idx_member_email", columnList = "email"),
+                @Index(name = "idx_member_nickname", columnList = "nickname")
+        }
+)
 public class Member extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
