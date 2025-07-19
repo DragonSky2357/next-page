@@ -2,12 +2,11 @@ package com.dragonsky.nextpage.domain.auth.resolver;
 
 import com.dragonsky.nextpage.config.security.auth.AuthUser;
 import com.dragonsky.nextpage.config.security.auth.UserDetailsProvider;
-import com.dragonsky.nextpage.domain.auth.annotation.CurrentUser;
-import com.dragonsky.nextpage.domain.auth.service.impl.CustomUserDetails;
-import com.dragonsky.nextpage.domain.member.entity.Member;
+import com.dragonsky.nextpage.domain.auth.annotation.AuthenticatedUser;
 import com.dragonsky.nextpage.domain.member.repository.reader.MemberReader;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.MethodParameter;
+import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -25,15 +24,20 @@ public class CurrentUserArgumentResolver implements HandlerMethodArgumentResolve
 
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
-        return parameter.hasParameterAnnotation(CurrentUser.class)
-                && parameter.getParameterType().equals(Member.class);
+        return parameter.hasParameterAnnotation(AuthenticatedUser.class)
+                && parameter.getParameterType().equals(AuthUser.class);
     }
 
     @Override
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
                                   NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
-        AuthUser authUser = userDetailsProvider.loadUserById()
-        return memberRepository.findById(authUser.id())
-                .orElseThrow(() -> new NotFoundException("사용자 없음"));
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication == null || !(authentication.getPrincipal() instanceof AuthUser)) {
+            throw new AuthenticationCredentialsNotFoundException("로그인이 필요합니다.");
+        }
+
+        return (AuthUser) authentication.getPrincipal();
     }
 }

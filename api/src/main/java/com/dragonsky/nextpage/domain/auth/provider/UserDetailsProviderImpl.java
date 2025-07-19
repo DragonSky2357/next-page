@@ -1,4 +1,4 @@
-package com.dragonsky.nextpage.domain.auth.service.impl;
+package com.dragonsky.nextpage.domain.auth.provider;
 
 import com.dragonsky.nextpage.config.security.auth.AuthUser;
 import com.dragonsky.nextpage.config.security.auth.UserDetailsProvider;
@@ -10,11 +10,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 @Component
-public class MemberDetailsProviderImpl implements UserDetailsProvider {
+public class UserDetailsProviderImpl implements UserDetailsProvider {
 
     private final MemberReader memberReader;
 
-    public MemberDetailsProviderImpl(MemberReader memberReader) {
+    public UserDetailsProviderImpl(MemberReader memberReader) {
         this.memberReader = memberReader;
     }
 
@@ -24,9 +24,8 @@ public class MemberDetailsProviderImpl implements UserDetailsProvider {
                 .orElseThrow(() -> new MemberException(MemberErrorCode.MEMBER_NOT_FOUND));
 
         return new AuthUser(
-            member.getId(),
-            member.getEmail(),
-            member.getPassword()
+                member.getId(),
+                member.getEmail()
         );
     }
 }

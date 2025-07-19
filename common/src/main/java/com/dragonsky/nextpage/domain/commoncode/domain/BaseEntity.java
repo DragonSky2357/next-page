@@ -27,10 +27,6 @@ public abstract class BaseEntity {
             columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
     private LocalDateTime updatedAt;
 
-    @CreatedBy
-    @Column(name = "created_by", updatable = false)
-    private Long createdBy;
-
     @LastModifiedBy
     @Column(name = "updated_by")
     private Long updatedBy;

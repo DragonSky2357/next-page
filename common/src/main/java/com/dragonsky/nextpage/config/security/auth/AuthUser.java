@@ -3,6 +3,7 @@ package com.dragonsky.nextpage.config.security.auth;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.beans.ConstructorProperties;
 import java.util.Collection;
 import java.util.List;
 
@@ -10,12 +11,10 @@ public class AuthUser implements UserDetails {
 
     private final Long id;
     private final String email;
-    private final String password;
 
-    public AuthUser(Long id, String email, String password) {
+    public AuthUser(Long id, String email) {
         this.id = id;
         this.email = email;
-        this.password = password;
     }
 
     public Long getId() {
@@ -29,7 +28,7 @@ public class AuthUser implements UserDetails {
 
     @Override
     public String getPassword() {
-        return password;
+        return "";
     }
 
     // 필요한 경우 권한 구현
