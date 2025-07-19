@@ -2,6 +2,7 @@ package com.dragonsky.nextpage.domain.review.service;
 
 import com.dragonsky.nextpage.application.review.dto.request.CreateReviewInput;
 import com.dragonsky.nextpage.application.review.dto.request.UpdateReviewInput;
+import com.dragonsky.nextpage.domain.member.entity.Member;
 import com.dragonsky.nextpage.domain.review.dto.ReviewDetail;
 import com.dragonsky.nextpage.domain.review.entity.Review;
 import org.springframework.data.domain.Page;
@@ -14,10 +15,11 @@ public interface ReviewService {
     /**
      * 리뷰를 생성합니다.
      *
-     * @param input 리뷰 생성에 필요한 입력값
+     * @param input  리뷰 생성에 필요한 입력값
+     * @param member
      * @return 생성된 리뷰의 ID
      */
-    Long createReview(CreateReviewInput input);
+    Long createReview(CreateReviewInput input, Member member);
 
     /**
      * 특정 리뷰를 조회합니다.

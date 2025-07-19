@@ -14,6 +14,7 @@ import java.util.Optional;
 @Repository
 @RequiredArgsConstructor
 public class ReviewReaderImpl implements ReviewReader {
+
     @Override
     public Optional<Review> findById(Long id) {
         return Optional.empty();

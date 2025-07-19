@@ -1,8 +1,8 @@
 package com.dragonsky.nextpage.presentation.review.controller;
 
 import com.dragonsky.nextpage.application.review.ReviewApplication;
-import com.dragonsky.nextpage.domain.auth.annotation.CurrentUser;
-import com.dragonsky.nextpage.domain.member.entity.Member;
+import com.dragonsky.nextpage.config.security.auth.AuthUser;
+import com.dragonsky.nextpage.domain.auth.annotation.AuthenticatedUser;
 import com.dragonsky.nextpage.presentation.review.converter.ReviewPersentationConverter;
 import com.dragonsky.nextpage.presentation.review.dto.request.CreateReviewRequest;
 import com.dragonsky.nextpage.presentation.review.dto.response.CreateReviewApiResponse;
@@ -24,8 +24,8 @@ public class ReviewController {
 
     @PostMapping
     public ResponseEntity<CreateReviewApiResponse> createReview(@Valid @RequestBody CreateReviewRequest request,
-                                                                @CurrentUser Member member) {
-        var input = reviewConverter.fromRequest(request);
+                                                                @AuthenticatedUser AuthUser user) {
+        var input = reviewConverter.fromRequest(request, user);
         var response = reviewApplication.createReview(input);
         var apiResponse = reviewConverter.toApiResponse(response);
         return ResponseEntity.ok(apiResponse);

@@ -38,6 +38,11 @@ public class MemberServiceImpl implements MemberService {
         return findMember("email",email);
     }
 
+    @Override
+    public Member getMemberById(Long memberId) {
+        return findMember("id", String.valueOf(memberId));
+    }
+
     private void validateDuplicate(MemberRegistrationInput input) {
         validateDuplicateEmail(input.email());
         validateDuplicateNickname(input.nickname());

@@ -2,6 +2,7 @@ package com.dragonsky.nextpage.domain.review.service.impl;
 
 import com.dragonsky.nextpage.application.review.dto.request.CreateReviewInput;
 import com.dragonsky.nextpage.application.review.dto.request.UpdateReviewInput;
+import com.dragonsky.nextpage.domain.member.entity.Member;
 import com.dragonsky.nextpage.domain.review.converter.ReviewConverter;
 import com.dragonsky.nextpage.domain.review.dto.ReviewDetail;
 import com.dragonsky.nextpage.domain.review.entity.Review;
@@ -28,8 +29,12 @@ public class ReviewServiceImpl implements ReviewService {
     private final ReviewStore reviewStore;
 
     @Override
-    public Long createReview(CreateReviewInput input) {
-        return 0L;
+    public Long createReview(CreateReviewInput input, Member member) {
+        Review review = reviewConverter.toEntity(input, member);
+
+        Review savedReview = reviewStore.save(review);
+
+        return savedReview.getId();
     }
 
     @Override
