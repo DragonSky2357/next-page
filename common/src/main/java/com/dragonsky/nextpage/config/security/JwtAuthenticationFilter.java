@@ -1,5 +1,6 @@
 package com.dragonsky.nextpage.config.security;
 
+import com.dragonsky.nextpage.config.security.auth.UserDetailsProvider;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.http.HttpServletRequest;
@@ -22,7 +23,7 @@ import java.util.Collections;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtTokenProvider jwtTokenProvider;
-    private final UserDetailsService userDetailsService;
+    private final UserDetailsProvider userDetailsProvider;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -42,7 +43,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private void setAuthentication(String token, HttpServletRequest request) {
         Long memberId = Long.valueOf(jwtTokenProvider.getMemberId(token));
 
-        UserDetails userDetails = userDetailsService.loadUserByUsername(String.valueOf(memberId));
+        UserDetails userDetails = userDetailsProvider.loadUserById(memberId);
 
         UsernamePasswordAuthenticationToken authentication =
                 new UsernamePasswordAuthenticationToken(userDetails, null, Collections.emptyList());

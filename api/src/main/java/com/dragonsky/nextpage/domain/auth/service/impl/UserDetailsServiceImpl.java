@@ -5,9 +5,10 @@ import com.dragonsky.nextpage.domain.member.repository.reader.MemberReader;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
-@Service
+@Component
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     private final MemberReader memberReader;
