@@ -1,77 +1,46 @@
 package com.dragonsky.nextpage.infra.redis.repository;
 
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.stereotype.Repository;
-
 import java.time.Duration;
+import java.util.Optional;
+import java.util.Set;
 
-@Repository
-public class RedisRepository {
+public interface RedisRepository<T> {
 
-    private final RedisTemplate<String, String> redisTemplate;
+    void save(String key, T value);
 
-    public RedisRepository(RedisTemplate<String, String> redisTemplate) {
-        this.redisTemplate = redisTemplate;
-    }
+    void save(String key, T value, Duration ttl);
 
-    public void save(String key, String value, Duration ttl) {
-        if (ttl != null) {
-            redisTemplate.opsForValue().set(key, value, ttl);
-        } else {
-            redisTemplate.opsForValue().set(key, value);
-        }
-    }
+    Optional<T> get(String key, Class<T> clazz);
 
-    public String get(String key){
-        return redisTemplate.opsForValue().get(key);
-    }
+    boolean delete(String key);
 
-    public boolean delete(String key){
-        return redisTemplate.delete(key);
-    }
+    void saveHash(String key, String hashKey, T value);
 
-    public void saveHash(String key, String hashKey, String value) {
-        redisTemplate.opsForHash().put(key, hashKey, value);
-    }
+    void saveHash(String key, String hashKey, T value, Duration ttl);
 
-    public void saveHash(String key, String hashKey, String value, Duration ttl) {
-        redisTemplate.opsForHash().put(key, hashKey, value);
-        redisTemplate.expire(key, ttl);
-    }
+    Optional<T> getHash(String key, String hashKey, Class<T> clazz);
 
-    public void leftPush(String key, String value) {
-        redisTemplate.opsForList().leftPush(key, value);
-    }
+    void leftPush(String key, T value);
 
-    public void leftPush(String key, String value, Duration ttl) {
-        redisTemplate.opsForList().leftPush(key, value);
-        redisTemplate.expire(key, ttl);
-    }
+    void leftPush(String key, T value, Duration ttl);
 
-    public void rightPush(String key, String value) {
-        redisTemplate.opsForList().rightPush(key, value);
-    }
+    Optional<T> leftPop(String key, Class<T> clazz);
 
-    public void rightPush(String key, String value, Duration ttl) {
-        redisTemplate.opsForList().rightPush(key, value);
-        redisTemplate.expire(key, ttl);
-    }
+    void rightPush(String key, T value);
 
-    public void saveSet(String key, String member) {
-        redisTemplate.opsForSet().add(key, member);
-    }
+    void rightPush(String key, T value, Duration ttl);
 
-    public void saveSet(String key, String member, Duration ttl) {
-        redisTemplate.opsForSet().add(key, member);
-        redisTemplate.expire(key, ttl);
-    }
+    Optional<T> rightPop(String key, Class<T> clazz);
 
-    public void saveSortedSet(String key, String member, double score) {
-        redisTemplate.opsForZSet().add(key, member, score);
-    }
+    void saveSet(String key, T member);
 
-    public void saveSortedSet(String key, String member, double score, Duration ttl) {
-        redisTemplate.opsForZSet().add(key, member, score);
-        redisTemplate.expire(key, ttl);
-    }
+    void saveSet(String key, T member, Duration ttl);
+
+    Set<T> getSet(String key, Class<T> clazz);
+
+    void saveSortedSet(String key, T member, double score);
+
+    void saveSortedSet(String key, T member, double score, Duration ttl);
+
+    Set<T> getSortedSetByScore(String key, double minScore, double maxScore, Class<T> clazz);
 }
