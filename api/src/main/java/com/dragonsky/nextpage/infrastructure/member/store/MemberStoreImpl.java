@@ -1,8 +1,8 @@
-package com.dragonsky.nextpage.infrastructure.member.jpa.store;
+package com.dragonsky.nextpage.infrastructure.member.store;
 
 import com.dragonsky.nextpage.domain.member.entity.Member;
 import com.dragonsky.nextpage.domain.member.repository.store.MemberStore;
-import com.dragonsky.nextpage.infrastructure.member.jpa.MemberJpaRepository;
+import com.dragonsky.nextpage.infrastructure.member.MemberJpaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 

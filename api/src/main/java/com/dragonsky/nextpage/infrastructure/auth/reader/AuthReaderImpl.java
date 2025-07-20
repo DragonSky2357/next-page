@@ -15,11 +15,10 @@ public class AuthReaderImpl implements AuthReader {
     private final RedisRepository redisRepository;
     private static final String REFRESH_TOKEN_KEY_PREFIX = "refresh_token:";
 
-
     @Override
     public RefreshToken findRefreshToken(long memberId) {
         String key = REFRESH_TOKEN_KEY_PREFIX + memberId;
-        String token = redisRepository.get(key);
+        String token = String.valueOf(redisRepository.get(key, String.class));
 
         return Optional.ofNullable(token)
                 .map(RefreshToken::new)

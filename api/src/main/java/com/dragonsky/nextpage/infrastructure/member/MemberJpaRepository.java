@@ -1,4 +1,4 @@
-package com.dragonsky.nextpage.infrastructure.member.jpa;
+package com.dragonsky.nextpage.infrastructure.member;
 
 import com.dragonsky.nextpage.domain.member.entity.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
