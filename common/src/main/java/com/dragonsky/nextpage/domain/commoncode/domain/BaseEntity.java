@@ -32,7 +32,7 @@ public abstract class BaseEntity {
     private Long updatedBy;
 
     @Column(name = "is_active", nullable = false, columnDefinition = "BOOLEAN DEFAULT TRUE")
-    private boolean isActive = false;
+    private boolean isActive = true;
 
     @Column(name = "is_deleted", nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
     private boolean isDeleted = false;

@@ -28,7 +28,7 @@ public class AuthUser implements UserDetails {
 
     @Override
     public String getPassword() {
-        return "";
+        return null;
     }
 
     // 필요한 경우 권한 구현
