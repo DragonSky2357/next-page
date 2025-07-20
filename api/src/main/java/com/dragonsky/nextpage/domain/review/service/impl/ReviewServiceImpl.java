@@ -3,9 +3,13 @@ package com.dragonsky.nextpage.domain.review.service.impl;
 import com.dragonsky.nextpage.application.review.dto.request.CreateReviewInput;
 import com.dragonsky.nextpage.application.review.dto.request.UpdateReviewInput;
 import com.dragonsky.nextpage.domain.member.entity.Member;
+import com.dragonsky.nextpage.domain.member.exception.MemberErrorCode;
+import com.dragonsky.nextpage.domain.member.exception.MemberException;
 import com.dragonsky.nextpage.domain.review.converter.ReviewConverter;
 import com.dragonsky.nextpage.domain.review.dto.ReviewDetail;
 import com.dragonsky.nextpage.domain.review.entity.Review;
+import com.dragonsky.nextpage.domain.review.exception.ReviewErrorCode;
+import com.dragonsky.nextpage.domain.review.exception.ReviewException;
 import com.dragonsky.nextpage.domain.review.repository.reader.ReviewReader;
 import com.dragonsky.nextpage.domain.review.repository.store.ReviewStore;
 import com.dragonsky.nextpage.domain.review.service.ReviewService;
@@ -17,6 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Objects;
 
 @Slf4j
 @Service
@@ -38,27 +43,43 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public Review findReview(Long reviewId) {
-        return null;
+    public Review getReview(Long reviewId) {
+        return getReviewById(reviewId);
     }
 
     @Override
-    public Page<Review> findReviews(Pageable pageable) {
-        return null;
+    public Page<Review> getReviews(Pageable pageable) {
+        return reviewReader.findAll(pageable);
     }
 
     @Override
-    public List<ReviewDetail> getReviews() {
-        return List.of();
+    public void updateReview(Long reviewId, Member member, UpdateReviewInput input) {
+        Review review = getReview(reviewId);
+
+        Member author = review.getAuthor();
+        validateAuthor(author, member);
+
+        review.update(input);
     }
 
     @Override
-    public void updateReview(Long reviewId, UpdateReviewInput input) {
+    public void deleteReview(Long reviewId, Member member) {
+        Review review = getReview(reviewId);
 
+        Member author = review.getAuthor();
+        validateAuthor(author, member);
+
+        reviewStore.remove(review);
     }
 
-    @Override
-    public void deleteReview(Long reviewId) {
+    private Review getReviewById(Long reviewId){
+        return reviewReader.findById(reviewId)
+                .orElseThrow(() -> new ReviewException(ReviewErrorCode.REVIEW_NOT_FOUND));
+    }
 
+    private void validateAuthor(Member author, Member member) {
+        if (!Objects.equals(author.getId(), member.getId())) {
+            throw new ReviewException(ReviewErrorCode.UNAUTHORIZED_REVIEW_REMOVE);
+        }
     }
 }

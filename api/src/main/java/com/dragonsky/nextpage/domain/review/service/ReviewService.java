@@ -28,7 +28,7 @@ public interface ReviewService {
      * @param reviewId 조회할 리뷰의 ID
      * @return 리뷰의 상세 정보
      */
-    Review findReview(Long reviewId);
+    Review getReview(Long reviewId);
 
     /**
      * 전체 리뷰 목록을 조회합니다.
@@ -37,24 +37,15 @@ public interface ReviewService {
      * @return 리뷰 정보 리스트
      */
 
-    Page<Review> findReviews(Pageable pageable);
-
-    /**
-     * 전체 리뷰 상세 목록을 조회합니다.
-     * 페이징 처리로 확장 가능성이 있습니다.
-     *
-     * @return 리뷰 정보 리스트
-     */
-
-    List<ReviewDetail> getReviews();
+    Page<Review> getReviews(Pageable pageable);
 
     /**
      * 기존 리뷰를 수정합니다.
-     *
+     * 현재는 전체 업데이트 적용 => 이후에 개별로 수정
      * @param reviewId 수정할 리뷰의 ID
      * @param input 수정에 필요한 입력값
      */
-    void updateReview(Long reviewId, UpdateReviewInput input);
+    void updateReview(Long reviewId, Member member, UpdateReviewInput input);
 
     /**
      * 리뷰를 삭제합니다.
@@ -62,5 +53,5 @@ public interface ReviewService {
      *
      * @param reviewId 삭제할 리뷰의 ID
      */
-    void deleteReview(Long reviewId);
+    void deleteReview(Long reviewId, Member member);
 }

@@ -1,10 +1,11 @@
-package com.dragonsky.nextpage.application.review.dto.request;
+package com.dragonsky.nextpage.application.review.dto.response;
 
-public record UpdateReviewInput(
+public record GetReviewResponse(
+        Long reviewId,
+        String author,
         String title,
         String content,
         Integer rating,
-        String searchKeywords,
         Integer statusCode,
         Integer categoryCode,
         Integer tagCode,

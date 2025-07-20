@@ -1,5 +1,6 @@
 package com.dragonsky.nextpage.domain.review.entity;
 
+import com.dragonsky.nextpage.application.review.dto.request.UpdateReviewInput;
 import com.dragonsky.nextpage.domain.commoncode.domain.BaseEntity;
 import com.dragonsky.nextpage.domain.member.entity.Member;
 import jakarta.persistence.*;
@@ -7,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.SQLRestriction;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
@@ -16,6 +18,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@SQLRestriction("isActive = true AND isDeleted = false")
 public class Review extends BaseEntity {
 
     @Id
@@ -50,11 +53,14 @@ public class Review extends BaseEntity {
     @Column(name = "is_private", nullable = false)
     private Boolean isPrivate = false;
 
-    public void updateContent(String content) {
-        this.content = content;
-    }
-
-    public void updateRating(Integer rating) {
-        this.rating = rating;
+    public void update(UpdateReviewInput input) {
+        this.title = input.title();
+        this.content = input.content();
+        this.rating = input.rating();
+        this.searchKeywords = input.searchKeywords();
+        this.statusCode = input.statusCode();
+        this.categoryCode = input.categoryCode();
+        this.tagCode = input.tagCode();
+        this.isPrivate = input.isPrivate();
     }
 }

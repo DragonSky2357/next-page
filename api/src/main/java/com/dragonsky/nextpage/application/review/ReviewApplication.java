@@ -3,8 +3,10 @@ package com.dragonsky.nextpage.application.review;
 import com.dragonsky.nextpage.application.review.converter.ReviewApplicationConverter;
 import com.dragonsky.nextpage.application.review.dto.request.CreateReviewInput;
 import com.dragonsky.nextpage.application.review.dto.response.CreateReviewResponse;
+import com.dragonsky.nextpage.application.review.dto.response.GetReviewResponse;
 import com.dragonsky.nextpage.domain.member.entity.Member;
 import com.dragonsky.nextpage.domain.member.service.MemberService;
+import com.dragonsky.nextpage.domain.review.entity.Review;
 import com.dragonsky.nextpage.domain.review.service.ReviewService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,6 +29,13 @@ public class ReviewApplication {
 
         Long reviewId = reviewService.createReview(input, member);
 
-        return reviewConverter.toResponse(reviewId);
+        return reviewConverter.toCreateReviewResponse(reviewId);
     }
+
+    public GetReviewResponse getReview(Long reviewId) {
+        Review review = reviewService.getReview(reviewId);
+
+        return reviewConverter.toGetReviewResponse(review);
+    }
+
 }
