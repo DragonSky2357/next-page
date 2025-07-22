@@ -10,8 +10,7 @@ import org.hibernate.annotations.SQLDelete;
 @Table(
         name = "common_code_detail",
         uniqueConstraints = {
-                @UniqueConstraint(columnNames = {"group_code", "code"}),
-                @UniqueConstraint(columnNames = {"group_code", "sort_order"})
+                @UniqueConstraint(columnNames = {"common_code", "code_key"})
         }
 )
 @SQLDelete(sql = "UPDATE common_code_detail SET is_active = false WHERE id = ?")
@@ -21,9 +20,6 @@ public class CommonCodeDetail extends BaseEntity {
 
     @EmbeddedId
     private CodeId id;
-
-    @Column(nullable = false)
-    private Integer codeValue;
 
     @Column(length = 50, nullable = false)
     private String name;
