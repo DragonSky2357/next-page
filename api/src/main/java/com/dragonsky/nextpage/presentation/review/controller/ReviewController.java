@@ -6,9 +6,11 @@ import com.dragonsky.nextpage.domain.auth.annotation.AuthenticatedUser;
 import com.dragonsky.nextpage.presentation.review.converter.ReviewPersentationConverter;
 import com.dragonsky.nextpage.presentation.review.dto.request.CreateReviewRequest;
 import com.dragonsky.nextpage.presentation.review.dto.response.CreateReviewApiResponse;
-import com.dragonsky.nextpage.presentation.review.dto.response.ReviewDetailApiResponse;
+import com.dragonsky.nextpage.presentation.review.dto.response.ReviewDetailResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,9 +32,16 @@ public class ReviewController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ReviewDetailApiResponse> getReview(@PathVariable Long id) {
-        var response = reviewApplication.getReview(id);
-        var apiResponse = reviewConverter.toDetailApiResponse(response);
-        return ResponseEntity.ok(apiResponse);
+    public ResponseEntity<ReviewDetailResponse> getReview(@PathVariable Long id) {
+        var result = reviewApplication.getReview(id);
+        var response = reviewConverter.toResponse(result);
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping
+    public ResponseEntity<Page<ReviewDetailResponse>> getReviews(Pageable pageable) {
+        var result = reviewApplication.getReviews(pageable);
+        var response = result.map(reviewConverter::toResponse);
+        return ResponseEntity.ok(response);
     }
 }

@@ -18,7 +18,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@SQLRestriction("isActive = true AND isDeleted = false")
+@SQLRestriction("is_Active = true AND is_Deleted = false")
 public class Review extends BaseEntity {
 
     @Id
