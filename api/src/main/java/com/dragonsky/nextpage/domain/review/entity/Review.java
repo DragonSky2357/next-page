@@ -35,6 +35,9 @@ public class Review extends BaseEntity {
     @Column(columnDefinition = "TEXT")
     private String content;
 
+    @Column(name = "thumbnail_url")
+    private String thumbnailUrl;
+
     @Column(nullable = false)
     private Integer rating;
 
@@ -52,6 +55,14 @@ public class Review extends BaseEntity {
 
     @Column(name = "is_private", nullable = false)
     private Boolean isPrivate = false;
+
+    @OneToOne(mappedBy = "review", cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
+    private ReviewStats stats;
+
+    public void setStats(ReviewStats stats) {
+        this.stats = stats;
+        stats.setReview(this);
+    }
 
     public void update(UpdateReviewInput input) {
         this.title = input.title();

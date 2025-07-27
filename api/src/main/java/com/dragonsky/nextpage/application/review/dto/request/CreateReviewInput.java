@@ -2,7 +2,6 @@ package com.dragonsky.nextpage.application.review.dto.request;
 
 import lombok.Builder;
 
-@Builder
 public record CreateReviewInput(
     Long authorId,
     String title,

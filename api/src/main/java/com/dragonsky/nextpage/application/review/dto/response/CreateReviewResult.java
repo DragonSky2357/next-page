@@ -1,6 +1,6 @@
 package com.dragonsky.nextpage.application.review.dto.response;
 
-public record CreateReviewResponse(
+public record CreateReviewResult(
         Long reviewId
 ) {
 }

@@ -1,5 +1,6 @@
 package com.dragonsky.nextpage.presentation.review.controller;
 
+import com.dragonsky.nextpage.apiresponse.ApiResponse;
 import com.dragonsky.nextpage.application.review.ReviewApplication;
 import com.dragonsky.nextpage.config.security.auth.AuthUser;
 import com.dragonsky.nextpage.domain.auth.annotation.AuthenticatedUser;
@@ -11,6 +12,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,12 +25,13 @@ public class ReviewController {
     private final ReviewApplication reviewApplication;
 
     @PostMapping
-    public ResponseEntity<CreateReviewApiResponse> createReview(@Valid @RequestBody CreateReviewRequest request,
-                                                                @AuthenticatedUser AuthUser user) {
+    public ResponseEntity<ApiResponse<CreateReviewApiResponse>> createReview(@Valid @RequestBody CreateReviewRequest request,
+                                                                             @AuthenticatedUser AuthUser user) {
         var input = reviewConverter.fromRequest(request, user);
-        var response = reviewApplication.createReview(input);
-        var apiResponse = reviewConverter.toApiResponse(response);
-        return ResponseEntity.ok(apiResponse);
+        var result = reviewApplication.createReview(input);
+        var response = reviewConverter.toResponse(result);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(ApiResponse.success("리뷰가 성공적으로 등록되었습니다.", response));
     }
 
     @GetMapping("/{id}")

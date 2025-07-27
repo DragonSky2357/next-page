@@ -1,7 +1,7 @@
 package com.dragonsky.nextpage.presentation.review.converter;
 
 import com.dragonsky.nextpage.application.review.dto.request.CreateReviewInput;
-import com.dragonsky.nextpage.application.review.dto.response.CreateReviewResponse;
+import com.dragonsky.nextpage.application.review.dto.response.CreateReviewResult;
 import com.dragonsky.nextpage.application.review.dto.response.GetReviewResult;
 import com.dragonsky.nextpage.config.security.auth.AuthUser;
 import com.dragonsky.nextpage.presentation.review.dto.request.CreateReviewRequest;
@@ -13,11 +13,21 @@ import org.springframework.stereotype.Component;
 public class ReviewPersentationConverter {
 
     public CreateReviewInput fromRequest(CreateReviewRequest request, AuthUser user) {
-        return null;
+        return new CreateReviewInput(
+                user.getId(),
+                request.title(),
+                request.content(),
+                request.rating(),
+                request.statusCode(),
+                request.categoryCode(),
+                request.tagCode(),
+                request.searchKeywords(),
+                request.isPrivate()
+        );
     }
 
-    public CreateReviewApiResponse toApiResponse(CreateReviewResponse response) {
-        return new CreateReviewApiResponse(response.reviewId());
+    public CreateReviewApiResponse toResponse(CreateReviewResult result) {
+        return new CreateReviewApiResponse(result.reviewId());
     }
 
     public ReviewDetailResponse toResponse(GetReviewResult result) {
