@@ -1,9 +1,13 @@
 package com.dragonsky.nextpage.exception;
 
+import com.dragonsky.nextpage.apiresponse.ApiResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import java.util.stream.Collectors;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -15,12 +19,28 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(BusinessException.class)
-    public ResponseEntity<ErrorResponse> handleBaseException(BusinessException ex) {
+    public ResponseEntity<ApiResponse<Void>> handleBaseException(BusinessException ex) {
         ErrorCode errorCode = ex.getErrorCode();
-        ErrorResponse errorResponse = new ErrorResponse(errorCode.getCode(), errorCode.getMessage());
+
+        ApiResponse<Void> response = ApiResponse.fail(errorCode.getCode(), errorCode.getMessage());
 
         return ResponseEntity
                 .status(errorCode.getHttpStatus())
-                .body(errorResponse);
+                .body(response);
     }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ApiResponse<Void>> handleValidationException(MethodArgumentNotValidException ex) {
+        String errorMessage = ex.getBindingResult().getFieldErrors()
+                .stream()
+                .map(fieldError -> fieldError.getField() + ": " + fieldError.getDefaultMessage())
+                .collect(Collectors.joining(", "));
+
+        ApiResponse<Void> response = ApiResponse.fail("VALIDATION_ERROR", errorMessage);
+
+        return ResponseEntity
+                .badRequest()
+                .body(response);
+    }
+
 }

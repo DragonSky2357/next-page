@@ -3,7 +3,7 @@ plugins{
 }
 
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'  // JPA 관련 어노테이션, Auditing 지원
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
     implementation 'jakarta.servlet:jakarta.servlet-api:6.0.0'
