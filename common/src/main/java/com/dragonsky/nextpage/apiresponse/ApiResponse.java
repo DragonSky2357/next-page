@@ -1,7 +1,12 @@
 package com.dragonsky.nextpage.apiresponse;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.Getter;
+
 import java.time.LocalDateTime;
 
+@Getter
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ApiResponse<T> {
 
     private String code;        // 응답 코드
@@ -32,19 +37,4 @@ public class ApiResponse<T> {
         return new ApiResponse<>(code, message, null);
     }
 
-    public String getCode() {
-        return code;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public T getData() {
-        return data;
-    }
-
-    public LocalDateTime getTimestamp() {
-        return timestamp;
-    }
 }
