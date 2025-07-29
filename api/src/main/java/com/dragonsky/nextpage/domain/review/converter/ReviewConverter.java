@@ -8,13 +8,15 @@ import org.springframework.stereotype.Component;
 @Component
 public class ReviewConverter {
 
-    // TODO member 엔티티를 넣어야함
     public Review toEntity(CreateReviewInput input, Member member) {
         return Review.builder()
                 .author(member)
                 .title(input.title())
                 .content(input.content())
                 .rating(input.rating())
+                .statusCode(input.statusCode())
+                .categoryCode(input.categoryCode())
+                .tagCode(input.tagCode())
                 .isPrivate(input.isPrivate())
                 .build();
     }
