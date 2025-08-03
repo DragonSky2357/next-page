@@ -6,9 +6,11 @@ import com.dragonsky.nextpage.application.review.dto.request.RemoveReviewInput;
 import com.dragonsky.nextpage.domain.member.entity.Member;
 import com.dragonsky.nextpage.domain.review.converter.ReviewConverter;
 import com.dragonsky.nextpage.domain.review.entity.Review;
+import com.dragonsky.nextpage.domain.review.entity.stats.ReviewStats;
 import com.dragonsky.nextpage.domain.review.exception.ReviewErrorCode;
 import com.dragonsky.nextpage.domain.review.exception.ReviewException;
 import com.dragonsky.nextpage.domain.review.repository.reader.ReviewReader;
+import com.dragonsky.nextpage.domain.review.repository.store.ReviewStateStore;
 import com.dragonsky.nextpage.domain.review.repository.store.ReviewStore;
 import com.dragonsky.nextpage.domain.review.service.ReviewService;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +31,7 @@ public class ReviewServiceImpl implements ReviewService {
     private final ReviewConverter reviewConverter;
     private final ReviewReader reviewReader;
     private final ReviewStore reviewStore;
+    private final ReviewStateStore reviewStateStore;
 
     @Override
     public Long createReview(CreateReviewInput input, Member member) {
@@ -36,6 +39,7 @@ public class ReviewServiceImpl implements ReviewService {
 
         Review savedReview = reviewStore.save(review);
 
+        reviewStateStore.save(new ReviewStats(savedReview));
         return savedReview.getId();
     }
 

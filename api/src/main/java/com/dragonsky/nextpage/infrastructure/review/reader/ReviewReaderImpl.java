@@ -3,7 +3,7 @@ package com.dragonsky.nextpage.infrastructure.review.reader;
 import com.dragonsky.nextpage.domain.review.dto.ReviewDetail;
 import com.dragonsky.nextpage.domain.review.entity.Review;
 import com.dragonsky.nextpage.domain.review.repository.reader.ReviewReader;
-import com.dragonsky.nextpage.infrastructure.review.ReviewJpaRepository;
+import com.dragonsky.nextpage.infrastructure.review.jpa.ReviewJpaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
