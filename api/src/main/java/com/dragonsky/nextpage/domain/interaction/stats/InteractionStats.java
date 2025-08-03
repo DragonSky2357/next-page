@@ -1,4 +1,4 @@
-package com.dragonsky.nextpage.domain.stats;
+package com.dragonsky.nextpage.domain.interaction.stats;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.MappedSuperclass;
@@ -6,7 +6,7 @@ import lombok.Getter;
 
 @Getter
 @MappedSuperclass
-public abstract class AbstractStats {
+public abstract class InteractionStats {
 
     @Column(nullable = false)
     protected int likeCount = 0;

@@ -1,4 +1,4 @@
-package com.dragonsky.nextpage.domain.view;
+package com.dragonsky.nextpage.domain.interaction.view;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @MappedSuperclass
-public abstract class AbstractViewRecord {
+public abstract class BaseViewRecord {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -24,12 +24,12 @@ public class MemberDetail {
     @Column(name = "introduction", columnDefinition = "TEXT")
     private String introduction;
 
-    @Column(name = "notify_comment", nullable = false)
-    private boolean notifyComment = false;
+    @Column(name = "notify_comment", nullable = false, columnDefinition = "DEFAULT FALSE")
+    private boolean notifyComment;
 
-    @Column(name = "notify_event", nullable = false)
-    private boolean notifyEvent = false;
+    @Column(name = "notify_event", nullable = false, columnDefinition = "DEFAULT FALSE")
+    private boolean notifyEvent;
 
-    @Column(name = "notify_email", nullable = false)
-    private boolean notifyEmail = false;
+    @Column(name = "notify_email", nullable = false, columnDefinition = "DEFAULT FALSE")
+    private boolean notifyEmail;
 }

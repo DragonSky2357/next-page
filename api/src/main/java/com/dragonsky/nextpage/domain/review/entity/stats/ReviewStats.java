@@ -1,6 +1,7 @@
-package com.dragonsky.nextpage.domain.review.entity;
+package com.dragonsky.nextpage.domain.review.entity.stats;
 
-import com.dragonsky.nextpage.domain.stats.AbstractStats;
+import com.dragonsky.nextpage.domain.interaction.stats.InteractionStats;
+import com.dragonsky.nextpage.domain.review.entity.Review;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -11,7 +12,7 @@ import lombok.Setter;
 @Table(name = "review_stats")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class ReviewStats extends AbstractStats {
+public class ReviewStats extends InteractionStats {
 
     @Id
     private Long id;
