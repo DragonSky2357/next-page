@@ -2,6 +2,8 @@ package com.dragonsky.nextpage.application.review;
 
 import com.dragonsky.nextpage.application.review.converter.ReviewApplicationConverter;
 import com.dragonsky.nextpage.application.review.dto.request.CreateReviewInput;
+import com.dragonsky.nextpage.application.review.dto.request.ModifyReviewInput;
+import com.dragonsky.nextpage.application.review.dto.request.RemoveReviewInput;
 import com.dragonsky.nextpage.application.review.dto.response.CreateReviewResult;
 import com.dragonsky.nextpage.application.review.dto.response.GetReviewResult;
 import com.dragonsky.nextpage.domain.member.entity.Member;
@@ -42,8 +44,21 @@ public class ReviewApplication {
 
     public Page<GetReviewResult> getReviews(Pageable pageable) {
         Page<Review> reviews = reviewService.getReviews(pageable);
-
         return reviews.map(reviewConverter::toResult);
     }
 
+    @Transactional
+    public void modifyReview(ModifyReviewInput input) {
+        Member member = memberService.getMemberById(input.userId());
+
+        reviewService.modifyReview(member, input);
+    }
+
+    @Transactional
+    public void removeReview(RemoveReviewInput input) {
+        Member member = memberService.getMemberById(input.userId());
+
+        reviewService.removeReview(member, input);
+    }
 }
+

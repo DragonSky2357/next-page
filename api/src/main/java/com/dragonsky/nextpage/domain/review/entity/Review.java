@@ -1,8 +1,9 @@
 package com.dragonsky.nextpage.domain.review.entity;
 
-import com.dragonsky.nextpage.application.review.dto.request.UpdateReviewInput;
+import com.dragonsky.nextpage.application.review.dto.request.ModifyReviewInput;
 import com.dragonsky.nextpage.domain.commoncode.domain.BaseEntity;
 import com.dragonsky.nextpage.domain.member.entity.Member;
+import com.dragonsky.nextpage.domain.review.entity.stats.ReviewStats;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -53,8 +54,8 @@ public class Review extends BaseEntity {
     @Column(name = "tag_code")
     private Integer tagCode;
 
-    @Column(name = "is_private", nullable = false)
-    private Boolean isPrivate = false;
+    @Column(name = "is_private", nullable = false, columnDefinition = "DEFAULT FALSE")
+    private Boolean isPrivate;
 
     @OneToOne(mappedBy = "review", cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
     private ReviewStats stats;
@@ -64,7 +65,7 @@ public class Review extends BaseEntity {
         stats.setReview(this);
     }
 
-    public void update(UpdateReviewInput input) {
+    public void update(ModifyReviewInput input) {
         this.title = input.title();
         this.content = input.content();
         this.rating = input.rating();

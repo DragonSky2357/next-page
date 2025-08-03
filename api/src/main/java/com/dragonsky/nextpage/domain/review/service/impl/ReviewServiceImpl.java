@@ -1,12 +1,10 @@
 package com.dragonsky.nextpage.domain.review.service.impl;
 
 import com.dragonsky.nextpage.application.review.dto.request.CreateReviewInput;
-import com.dragonsky.nextpage.application.review.dto.request.UpdateReviewInput;
+import com.dragonsky.nextpage.application.review.dto.request.ModifyReviewInput;
+import com.dragonsky.nextpage.application.review.dto.request.RemoveReviewInput;
 import com.dragonsky.nextpage.domain.member.entity.Member;
-import com.dragonsky.nextpage.domain.member.exception.MemberErrorCode;
-import com.dragonsky.nextpage.domain.member.exception.MemberException;
 import com.dragonsky.nextpage.domain.review.converter.ReviewConverter;
-import com.dragonsky.nextpage.domain.review.dto.ReviewDetail;
 import com.dragonsky.nextpage.domain.review.entity.Review;
 import com.dragonsky.nextpage.domain.review.exception.ReviewErrorCode;
 import com.dragonsky.nextpage.domain.review.exception.ReviewException;
@@ -20,7 +18,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Objects;
 
 @Slf4j
@@ -53,8 +50,8 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public void updateReview(Long reviewId, Member member, UpdateReviewInput input) {
-        Review review = getReview(reviewId);
+    public void modifyReview(Member member, ModifyReviewInput input) {
+        Review review = getReview(input.reviewId());
 
         Member author = review.getAuthor();
         validateAuthor(author, member);
@@ -63,8 +60,8 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public void deleteReview(Long reviewId, Member member) {
-        Review review = getReview(reviewId);
+    public void removeReview(Member member, RemoveReviewInput input) {
+        Review review = getReview(input.reviewId());
 
         Member author = review.getAuthor();
         validateAuthor(author, member);
@@ -72,7 +69,7 @@ public class ReviewServiceImpl implements ReviewService {
         reviewStore.remove(review);
     }
 
-    private Review getReviewById(Long reviewId){
+    private Review getReviewById(Long reviewId) {
         return reviewReader.findById(reviewId)
                 .orElseThrow(() -> new ReviewException(ReviewErrorCode.REVIEW_NOT_FOUND));
     }

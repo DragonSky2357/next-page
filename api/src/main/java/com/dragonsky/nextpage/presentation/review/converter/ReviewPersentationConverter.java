@@ -1,10 +1,13 @@
 package com.dragonsky.nextpage.presentation.review.converter;
 
 import com.dragonsky.nextpage.application.review.dto.request.CreateReviewInput;
+import com.dragonsky.nextpage.application.review.dto.request.ModifyReviewInput;
+import com.dragonsky.nextpage.application.review.dto.request.RemoveReviewInput;
 import com.dragonsky.nextpage.application.review.dto.response.CreateReviewResult;
 import com.dragonsky.nextpage.application.review.dto.response.GetReviewResult;
 import com.dragonsky.nextpage.config.security.auth.AuthUser;
 import com.dragonsky.nextpage.presentation.review.dto.request.CreateReviewRequest;
+import com.dragonsky.nextpage.presentation.review.dto.request.ModifyReviewRequest;
 import com.dragonsky.nextpage.presentation.review.dto.response.CreateReviewApiResponse;
 import com.dragonsky.nextpage.presentation.review.dto.response.ReviewDetailResponse;
 import org.springframework.stereotype.Component;
@@ -32,5 +35,27 @@ public class ReviewPersentationConverter {
 
     public ReviewDetailResponse toResponse(GetReviewResult result) {
         return new ReviewDetailResponse(result);
+    }
+
+    public ModifyReviewInput fromRequest(Long reviewId, ModifyReviewRequest request, AuthUser user) {
+        return new ModifyReviewInput(
+                reviewId,
+                user.getId(),
+                request.title(),
+                request.content(),
+                request.rating(),
+                request.searchKeywords(),
+                request.statusCode(),
+                request.categoryCode(),
+                request.tagCode(),
+                request.isPrivate()
+        );
+    }
+
+    public RemoveReviewInput fromRequest(Long reviewId, AuthUser user) {
+        return new RemoveReviewInput(
+                reviewId,
+                user.getId()
+        );
     }
 }
