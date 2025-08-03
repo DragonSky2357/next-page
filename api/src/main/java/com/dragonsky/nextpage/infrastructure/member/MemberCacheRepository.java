@@ -25,7 +25,7 @@ public class MemberCacheRepository {
 
     public Optional<MemberCache> findAuthMember(Long id) {
         String key = getKey(id);
-        return redisRepository.get(key, MemberCache.class);
+        return redisRepository.get(key, MemberCache.class).map(obj -> (MemberCache) obj);
     }
 
     public void deleteById(Long id) {
