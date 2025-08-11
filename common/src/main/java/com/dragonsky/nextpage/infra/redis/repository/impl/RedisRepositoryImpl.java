@@ -233,6 +233,16 @@ public class RedisRepositoryImpl implements RedisRepository {
         return resultSet;
     }
 
+    @Override
+    public void removeFromSet(String key, Object value) {
+        redisTemplate.opsForSet().remove(key, value.toString());
+    }
+
+    @Override
+    public boolean isMemberOfSet(String key, String value) {
+        return Boolean.TRUE.equals(redisTemplate.opsForSet().isMember(key, value));
+    }
+
     /**
      * Sorted Set에 값과 점수 저장 (TTL 없음).
      */

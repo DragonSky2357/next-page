@@ -155,6 +155,16 @@ public interface RedisRepository {
     Set<Object> getSet(String key, Class<?> clazz);
 
     /**
+     * Redis Set에서 특정 값을 제거합니다.
+     *
+     * @param key   Redis Key
+     * @param value 제거할 값
+     */
+    void removeFromSet(String key, Object value);
+
+    boolean isMemberOfSet(String key, String value);
+
+    /**
      * Sorted Set에 값을 점수와 함께 저장합니다. TTL은 설정하지 않습니다.
      *
      * @param key    Sorted Set을 저장할 Redis 키
