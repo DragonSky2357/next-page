@@ -1,5 +1,6 @@
 package com.dragonsky.nextpage.domain.commoncode.domain;
 
+import com.dragonsky.nextpage.domain.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
