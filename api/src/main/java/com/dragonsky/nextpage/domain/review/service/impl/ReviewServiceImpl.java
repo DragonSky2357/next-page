@@ -9,17 +9,20 @@ import com.dragonsky.nextpage.domain.review.entity.Review;
 import com.dragonsky.nextpage.domain.review.entity.stats.ReviewStats;
 import com.dragonsky.nextpage.domain.review.exception.ReviewErrorCode;
 import com.dragonsky.nextpage.domain.review.exception.ReviewException;
+import com.dragonsky.nextpage.domain.review.factory.ReviewFactory;
 import com.dragonsky.nextpage.domain.review.repository.reader.ReviewReader;
 import com.dragonsky.nextpage.domain.review.repository.store.ReviewStateStore;
 import com.dragonsky.nextpage.domain.review.repository.store.ReviewStore;
 import com.dragonsky.nextpage.domain.review.service.ReviewService;
+import com.dragonsky.nextpage.domain.review.vo.ReviewDetail;
+import com.dragonsky.nextpage.presentation.review.dto.request.ReviewSearchCondition;
+import com.dragonsky.nextpage.response.PageResult;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Objects;
 
 @Slf4j
@@ -28,17 +31,16 @@ import java.util.Objects;
 @Transactional(readOnly = true)
 public class ReviewServiceImpl implements ReviewService {
 
-    private final ReviewConverter reviewConverter;
+    private final ReviewFactory reviewFactory;
     private final ReviewReader reviewReader;
     private final ReviewStore reviewStore;
     private final ReviewStateStore reviewStateStore;
+    private final ReviewConverter reviewConverter;
 
     @Override
     public Long createReview(CreateReviewInput input, Member member) {
-        Review review = reviewConverter.toEntity(input, member);
-
-        Review savedReview = reviewStore.save(review);
-
+        Review review = reviewFactory.create(input, member);
+        Review savedReview = reviewStore.append(review);
         reviewStateStore.save(new ReviewStats(savedReview));
         return savedReview.getId();
     }
@@ -49,8 +51,10 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public Page<Review> getReviews(Pageable pageable) {
-        return reviewReader.findAll(pageable);
+    public PageResult<ReviewDetail> getReviews(ReviewSearchCondition condition) {
+        List<ReviewDetail> reviews = reviewReader.read(condition);
+        long totalCount = reviewReader.count(condition);
+        return new PageResult<>(reviews, condition.page(), condition.size(), totalCount);
     }
 
     @Override
@@ -73,8 +77,13 @@ public class ReviewServiceImpl implements ReviewService {
         reviewStore.remove(review);
     }
 
+    @Override
+    public void likeReview(Long reviewId, Long memberId) {
+        reviewStore.toogleLike(reviewId, memberId);
+    }
+
     private Review getReviewById(Long reviewId) {
-        return reviewReader.findById(reviewId)
+        return reviewReader.read(reviewId)
                 .orElseThrow(() -> new ReviewException(ReviewErrorCode.REVIEW_NOT_FOUND));
     }
 

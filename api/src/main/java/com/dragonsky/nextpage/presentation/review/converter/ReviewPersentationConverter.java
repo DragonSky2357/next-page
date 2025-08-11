@@ -10,6 +10,8 @@ import com.dragonsky.nextpage.presentation.review.dto.request.CreateReviewReques
 import com.dragonsky.nextpage.presentation.review.dto.request.ModifyReviewRequest;
 import com.dragonsky.nextpage.presentation.review.dto.response.CreateReviewApiResponse;
 import com.dragonsky.nextpage.presentation.review.dto.response.ReviewDetailResponse;
+import com.dragonsky.nextpage.presentation.review.dto.response.ReviewListResponse;
+import com.dragonsky.nextpage.response.PageResult;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -21,9 +23,9 @@ public class ReviewPersentationConverter {
                 request.title(),
                 request.content(),
                 request.rating(),
-                request.statusCode(),
-                request.categoryCode(),
-                request.tagCode(),
+                request.status(),
+                request.category(),
+                request.tag(),
                 request.searchKeywords(),
                 request.isPrivate()
         );
@@ -37,6 +39,10 @@ public class ReviewPersentationConverter {
         return new ReviewDetailResponse(result);
     }
 
+    public ReviewListResponse toResponse(PageResult<GetReviewResult> result) {
+        return new ReviewListResponse(result);
+    }
+
     public ModifyReviewInput fromRequest(Long reviewId, ModifyReviewRequest request, AuthUser user) {
         return new ModifyReviewInput(
                 reviewId,
@@ -45,9 +51,9 @@ public class ReviewPersentationConverter {
                 request.content(),
                 request.rating(),
                 request.searchKeywords(),
-                request.statusCode(),
-                request.categoryCode(),
-                request.tagCode(),
+                request.status(),
+                request.category(),
+                request.tag(),
                 request.isPrivate()
         );
     }

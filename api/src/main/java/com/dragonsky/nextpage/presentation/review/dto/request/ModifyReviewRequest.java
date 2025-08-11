@@ -18,11 +18,11 @@ public record ModifyReviewRequest(
         @Size(max = 255)
         String searchKeywords,
 
-        Integer statusCode,
+        String status,
 
-        Integer categoryCode,
+        String category,
 
-        Integer tagCode,
+        String tag,
 
         Boolean isPrivate
 ) {

@@ -5,9 +5,9 @@ public record CreateReviewInput(
         String title,
         String content,
         Integer rating,
-        Integer statusCode,
-        Integer categoryCode,
-        Integer tagCode,
+        String status,
+        String category,
+        String tag,
         String searchKeywords,
         Boolean isPrivate
 ) {

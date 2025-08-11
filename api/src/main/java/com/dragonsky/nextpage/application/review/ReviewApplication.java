@@ -10,10 +10,11 @@ import com.dragonsky.nextpage.domain.member.entity.Member;
 import com.dragonsky.nextpage.domain.member.service.MemberService;
 import com.dragonsky.nextpage.domain.review.entity.Review;
 import com.dragonsky.nextpage.domain.review.service.ReviewService;
+import com.dragonsky.nextpage.domain.review.vo.ReviewDetail;
+import com.dragonsky.nextpage.presentation.review.dto.request.ReviewSearchCondition;
+import com.dragonsky.nextpage.response.PageResult;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -42,9 +43,10 @@ public class ReviewApplication {
         return reviewConverter.toResult(review);
     }
 
-    public Page<GetReviewResult> getReviews(Pageable pageable) {
-        Page<Review> reviews = reviewService.getReviews(pageable);
-        return reviews.map(reviewConverter::toResult);
+    public PageResult<GetReviewResult> getReviews(ReviewSearchCondition condition) {
+        PageResult<ReviewDetail> reviews = reviewService.getReviews(condition);
+
+        return reviewConverter.toResult(reviews);
     }
 
     @Transactional
@@ -59,6 +61,12 @@ public class ReviewApplication {
         Member member = memberService.getMemberById(input.userId());
 
         reviewService.removeReview(member, input);
+    }
+
+    public void likeReview(Long reviewId, Long memberId) {
+        Member member = memberService.getMemberById(memberId);
+
+        reviewService.likeReview(reviewId, member.getId());
     }
 }
 

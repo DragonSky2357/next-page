@@ -7,25 +7,25 @@ import lombok.Getter;
 public class ReviewDetailResponse {
     private final Long reviewId;
     private final Long authorId;
-    private final String authorName;
+    private final String nickname;
     private final String title;
     private final String content;
     private final Integer rating;
-    private final Integer statusCode;
-    private final Integer categoryCode;
-    private final Integer tagCode;
+    private final String status;
+    private final String category;
+    private final String tag;
     private final Boolean isPrivate;
 
     public ReviewDetailResponse(GetReviewResult result) {
         this.reviewId = result.getReviewId();
         this.authorId = result.getAuthorId();
-        this.authorName = result.getAuthorName();
+        this.nickname = result.getNickname();
         this.title = result.getTitle();
         this.content = result.getContent();
         this.rating = result.getRating();
-        this.statusCode = result.getStatusCode();
-        this.categoryCode = result.getCategoryCode();
-        this.tagCode = result.getTagCode();
+        this.status = String.valueOf(result.getStatus());
+        this.category = String.valueOf(result.getCategory());
+        this.tag = String.valueOf(result.getTag());
         this.isPrivate = result.getIsPrivate();
     }
 }

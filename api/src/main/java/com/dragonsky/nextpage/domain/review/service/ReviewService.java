@@ -4,9 +4,10 @@ import com.dragonsky.nextpage.application.review.dto.request.CreateReviewInput;
 import com.dragonsky.nextpage.application.review.dto.request.ModifyReviewInput;
 import com.dragonsky.nextpage.application.review.dto.request.RemoveReviewInput;
 import com.dragonsky.nextpage.domain.member.entity.Member;
+import com.dragonsky.nextpage.domain.review.vo.ReviewDetail;
 import com.dragonsky.nextpage.domain.review.entity.Review;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import com.dragonsky.nextpage.presentation.review.dto.request.ReviewSearchCondition;
+import com.dragonsky.nextpage.response.PageResult;
 
 public interface ReviewService {
 
@@ -36,7 +37,7 @@ public interface ReviewService {
      * @return 리뷰 정보 리스트
      */
 
-    Page<Review> getReviews(Pageable pageable);
+    PageResult<ReviewDetail> getReviews(ReviewSearchCondition condition);
 
     /**
      * 기존 리뷰를 수정합니다.
@@ -55,4 +56,6 @@ public interface ReviewService {
      * @param input  삭제에 필요한 입력값(reviewId)
      */
     void removeReview(Member member, RemoveReviewInput input);
+
+    void likeReview(Long reviewId, Long id);
 }

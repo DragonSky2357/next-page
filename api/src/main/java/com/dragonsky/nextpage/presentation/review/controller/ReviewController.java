@@ -1,18 +1,18 @@
 package com.dragonsky.nextpage.presentation.review.controller;
 
-import com.dragonsky.nextpage.apiresponse.ApiResponse;
 import com.dragonsky.nextpage.application.review.ReviewApplication;
 import com.dragonsky.nextpage.config.security.auth.AuthUser;
 import com.dragonsky.nextpage.domain.auth.annotation.AuthenticatedUser;
 import com.dragonsky.nextpage.presentation.review.converter.ReviewPersentationConverter;
 import com.dragonsky.nextpage.presentation.review.dto.request.CreateReviewRequest;
 import com.dragonsky.nextpage.presentation.review.dto.request.ModifyReviewRequest;
+import com.dragonsky.nextpage.presentation.review.dto.request.ReviewSearchCondition;
 import com.dragonsky.nextpage.presentation.review.dto.response.CreateReviewApiResponse;
 import com.dragonsky.nextpage.presentation.review.dto.response.ReviewDetailResponse;
+import com.dragonsky.nextpage.presentation.review.dto.response.ReviewListResponse;
+import com.dragonsky.nextpage.response.ApiResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -46,9 +46,11 @@ public class ReviewController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<ReviewDetailResponse>> getReviews(Pageable pageable) {
-        var result = reviewApplication.getReviews(pageable);
-        var response = result.map(reviewConverter::toResponse);
+    public ResponseEntity<ReviewListResponse> getReviews(
+            ReviewSearchCondition condition
+    ) {
+        var result = reviewApplication.getReviews(condition);
+        var response = reviewConverter.toResponse(result);
 
         return ResponseEntity.ok(response);
     }
@@ -76,5 +78,14 @@ public class ReviewController {
 
         return ResponseEntity.status(HttpStatus.OK)
                 .body(ApiResponse.success("리뷰가 성공적으로 삭제되었습니다."));
+    }
+
+    @PostMapping("/{reviewId}/likes")
+    public ResponseEntity<Void> likeReview(
+            @PathVariable Long reviewId,
+            @AuthenticatedUser AuthUser user
+    ) {
+        reviewApplication.likeReview(reviewId, user.getId());
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 }

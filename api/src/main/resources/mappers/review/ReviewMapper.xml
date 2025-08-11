@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.dragonsky.nextpage.infra.review.mybatis.mapper.ReviewMapper">
+
+    <select id="searchReviews" parameterType="com.dragonsky.nextpage.presentation.review.dto.request.ReviewSearchCondition"
+            resultType="com.dragonsky.nextpage.domain.review.vo.ReviewDetail">
+
+        SELECT r.id         AS reviewId  /* 리뷰 ID*/
+             , r.title      AS title     /* 리뷰 제목 */
+             , r.content    AS content   /* 리뷰 내용(html) */
+             , r.status     AS status    /* 리뷰 상태(읽음, 완독...)*/
+             , r.category   AS category  /* 리뷰 분류(소설, 과학, 문학...)*/
+             , r.tag        AS tag       /* 리뷰 태그(난이도, 분량...)*/
+             , r.created_at AS createdAt /* 리뷰 작성일 */
+             , m.id         AS authorId  /* 리뷰 작성자 ID */
+             , m.nickname   AS nickname  /* 리뷰 작성자 닉네임 */
+          FROM review r /* 리뷰 */
+         INNER JOIN member m /* 멤버 */
+            ON r.author_id = m.id
+         WHERE 1=1
+         <if test="status != null and status != ''">
+           AND r.status = #{status}
+         </if>
+         <if test="category != null and category != ''">
+           AND r.category = #{category}
+         </if>
+         <if test="tag != null and tag != ''">
+           AND r.tag = #{tag}
+         </if>
+        <if test="keyword != null and keyword != ''">
+           AND (r.title LIKE CONCAT('%', #{keyword}, '%'))
+        </if>
+        <choose>
+            <when test="sortBy == 'RECENT'">
+                ORDER BY r.created_at DESC
+            </when>
+            <otherwise>
+                ORDER BY r.created_at DESC
+            </otherwise>
+        </choose>
+        LIMIT #{size} OFFSET #{offset}
+    </select>
+
+    <select id="countReviews" parameterType="com.dragonsky.nextpage.presentation.review.dto.request.ReviewSearchCondition"
+            resultType="int">
+        SELECT COUNT(1)
+          FROM review r /* 리뷰 */
+         INNER JOIN member m /* 멤버 */
+            ON r.author_id = m.id
+         WHERE 1=1
+         <if test="status != null and status != ''">
+           AND r.status = #{status}
+         </if>
+         <if test="category != null and category != ''">
+           AND r.category = #{category}
+         </if>
+         <if test="tag != null and tag != ''">
+           AND r.tag = #{tag}
+         </if>
+         <if test="keyword != null and keyword != ''">
+           AND (r.title LIKE CONCAT('%', #{keyword}, '%')
+         </if>
+    </select>
+
+</mapper>

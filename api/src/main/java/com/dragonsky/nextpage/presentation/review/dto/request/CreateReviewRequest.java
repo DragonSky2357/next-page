@@ -20,13 +20,13 @@ public record CreateReviewRequest(
         String searchKeywords,
 
         @NotNull(message = "완독은 필수 항목 입니다.")
-        Integer statusCode,
+        String status,
 
         @NotNull(message = "카데고리는 필수 항목 입니다.")
-        Integer categoryCode,
+        String category,
 
         @NotNull(message = "태그는 필수 항목입니다.")
-        Integer tagCode,
+        String tag,
 
         @NotNull(message = "공개 여부를 선택해주세요.")
         Boolean isPrivate

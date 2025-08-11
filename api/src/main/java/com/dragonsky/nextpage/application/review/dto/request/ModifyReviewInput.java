@@ -7,9 +7,9 @@ public record ModifyReviewInput(
         String content,
         Integer rating,
         String searchKeywords,
-        Integer statusCode,
-        Integer categoryCode,
-        Integer tagCode,
+        String status,
+        String category,
+        String tag,
         Boolean isPrivate
 ) {
 }
