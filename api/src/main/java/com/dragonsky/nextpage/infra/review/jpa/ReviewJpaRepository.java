@@ -1,4 +1,4 @@
-package com.dragonsky.nextpage.infrastructure.review.jpa;
+package com.dragonsky.nextpage.infra.review.jpa;
 
 import com.dragonsky.nextpage.domain.review.entity.Review;
 import org.springframework.data.jpa.repository.JpaRepository;

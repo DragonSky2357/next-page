@@ -42,7 +42,7 @@ logging:
     org.springframework.web: DEBUG
     com.yourpackage: DEBUG
     org.hibernate.SQL: DEBUG
-    org.hibernate.type.descriptor.sql: TRACE
+    org.hibernate.type.descriptor.sql: DEBUG
 
 management:
   endpoints:
@@ -61,5 +61,5 @@ spring:
 
 jwt:
   secret: "q8s7v6p4n2k1m9r3x0z5a7b8c6d4e1f2"  # 예시, 랜덤하고 복잡한 문자열
-  access-token-validity: 900000
-  refresh-token-validity: 604800000
+  access-token-validity: 9000000000
+  refresh-token-validity: 60480000000

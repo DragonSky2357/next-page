@@ -1,8 +1,8 @@
-package com.dragonsky.nextpage.infrastructure.review.store;
+package com.dragonsky.nextpage.infra.review.store;
 
 import com.dragonsky.nextpage.domain.review.entity.stats.ReviewStats;
 import com.dragonsky.nextpage.domain.review.repository.store.ReviewStateStore;
-import com.dragonsky.nextpage.infrastructure.review.jpa.ReviewStatsJpaRepository;
+import com.dragonsky.nextpage.infra.review.jpa.ReviewStatsJpaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 

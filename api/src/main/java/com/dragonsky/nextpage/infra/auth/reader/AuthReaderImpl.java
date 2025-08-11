@@ -1,4 +1,4 @@
-package com.dragonsky.nextpage.infrastructure.auth.reader;
+package com.dragonsky.nextpage.infra.auth.reader;
 
 import com.dragonsky.nextpage.domain.auth.repository.reader.AuthReader;
 import com.dragonsky.nextpage.domain.auth.vo.RefreshToken;

@@ -1,6 +1,6 @@
 package com.dragonsky.nextpage.domain.member.entity;
 
-import com.dragonsky.nextpage.domain.commoncode.domain.BaseEntity;
+import com.dragonsky.nextpage.domain.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 

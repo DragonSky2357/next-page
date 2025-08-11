@@ -1,4 +1,4 @@
-package com.dragonsky.nextpage.infrastructure.auth.store;
+package com.dragonsky.nextpage.infra.auth.store;
 
 import com.dragonsky.nextpage.domain.auth.repository.store.AuthStore;
 import com.dragonsky.nextpage.domain.auth.vo.RefreshToken;

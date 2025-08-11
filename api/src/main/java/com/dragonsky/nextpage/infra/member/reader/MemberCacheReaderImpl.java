@@ -1,8 +1,8 @@
-package com.dragonsky.nextpage.infrastructure.member.reader;
+package com.dragonsky.nextpage.infra.member.reader;
 
 import com.dragonsky.nextpage.domain.member.cache.MemberCache;
 import com.dragonsky.nextpage.domain.member.repository.reader.MemberCacheReader;
-import com.dragonsky.nextpage.infrastructure.member.MemberCacheRepository;
+import com.dragonsky.nextpage.infra.member.MemberCacheRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 

@@ -1,4 +1,4 @@
-package com.dragonsky.nextpage.apiresponse;
+package com.dragonsky.nextpage.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;

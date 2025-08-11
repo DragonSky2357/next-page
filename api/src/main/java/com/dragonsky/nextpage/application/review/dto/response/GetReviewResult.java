@@ -10,12 +10,15 @@ import lombok.Getter;
 public class GetReviewResult {
     private Long reviewId;
     private Long authorId;
-    private String authorName;
+    private String nickname;
     private String title;
     private String content;
     private Integer rating;
-    private Integer statusCode;
-    private Integer categoryCode;
-    private Integer tagCode;
+    private String status;
+    private String statusDesc;
+    private String category;
+    private String categoryDesc;
+    private String tag;
+    private String tagDesc;
     private Boolean isPrivate;
 }

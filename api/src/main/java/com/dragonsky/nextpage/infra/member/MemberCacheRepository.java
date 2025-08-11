@@ -1,4 +1,4 @@
-package com.dragonsky.nextpage.infrastructure.member;
+package com.dragonsky.nextpage.infra.member;
 
 import com.dragonsky.nextpage.domain.member.cache.MemberCache;
 import com.dragonsky.nextpage.infra.redis.repository.RedisRepository;
