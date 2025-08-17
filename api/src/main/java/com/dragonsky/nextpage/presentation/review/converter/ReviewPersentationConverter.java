@@ -36,11 +36,11 @@ public class ReviewPersentationConverter {
     }
 
     public ReviewDetailResponse toResponse(GetReviewResult result) {
-        return new ReviewDetailResponse(result);
+        return ReviewDetailResponse.from(result);
     }
 
     public ReviewListResponse toResponse(PageResult<GetReviewResult> result) {
-        return new ReviewListResponse(result);
+        return ReviewListResponse.from(result);
     }
 
     public ModifyReviewInput fromRequest(Long reviewId, ModifyReviewRequest request, AuthUser user) {
