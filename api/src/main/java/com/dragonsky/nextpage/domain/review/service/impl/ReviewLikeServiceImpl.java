@@ -33,14 +33,14 @@ public class ReviewLikeServiceImpl implements ReviewLikeService {
     @Override
     public int getLikesCount(Long reviewId) {
         String key = LIKE_KEY_PREFIX + reviewId;
-        Set<Object> likes = redisRepository.getSet(key, String.class);
+        Set<String> likes = redisRepository.getSet(key, String.class);
         return likes != null ? likes.size() : 0;
     }
 
     @Override
     public boolean hasLiked(Long reviewId, Long memberId) {
         String key = LIKE_KEY_PREFIX + reviewId;
-        Set<Object> likes = redisRepository.getSet(key, String.class);
+        Set<String> likes = redisRepository.getSet(key, String.class);
         return likes != null && likes.contains(memberId.toString());
     }
 }

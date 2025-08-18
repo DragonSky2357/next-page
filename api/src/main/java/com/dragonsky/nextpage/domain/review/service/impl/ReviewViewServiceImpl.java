@@ -33,7 +33,7 @@ public class ReviewViewServiceImpl implements ReviewViewService {
     @Override
     public int getViewCount(Long reviewId) {
         String key = VIEW_COUNT_KEY_PREFIX + reviewId;
-        Optional<Object> optional = redisRepository.get(key, Integer.class);
+        Optional<Integer> optional = redisRepository.get(key, Integer.class);
         return optional.map(o -> (Integer) o).orElse(0);
     }
 }
