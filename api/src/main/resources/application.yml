@@ -63,3 +63,8 @@ jwt:
   secret: "q8s7v6p4n2k1m9r3x0z5a7b8c6d4e1f2"  # 예시, 랜덤하고 복잡한 문자열
   access-token-validity: 9000000000
   refresh-token-validity: 60480000000
+
+naver:
+  client:
+    id: ${NAVER_CLIENT_ID}
+    secret: ${NAVER_CLIENT_SECRET}
