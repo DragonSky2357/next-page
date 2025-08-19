@@ -1,7 +1,9 @@
 package com.dragonsky.nextpage.infra.book.naver.api;
 
 import com.dragonsky.nextpage.infra.book.naver.dto.response.NaverBookResponse;
+import com.dragonsky.nextpage.infra.book.naver.dto.response.NaverBookRssResponse;
 import com.dragonsky.nextpage.presentation.book.dto.request.BookSearchCondition;
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -17,16 +19,13 @@ public class NaverApiClient {
     @Value("${naver.client.secret}")
     private String clientSecret;
 
-    private final WebClient webClient = WebClient.create("https://openapi.naver.com/v1/search/book.json");
+    private final WebClient webClient = WebClient.create();
+    private final XmlMapper xmlMapper = new XmlMapper();
 
-    public NaverBookResponse searchBooks(BookSearchCondition condition) {
+    public NaverBookResponse fetchBooks(BookSearchCondition condition) {
         return webClient.get()
-                .uri(uriBuilder -> uriBuilder
-                        .queryParam("query", condition.getQuery())
-                        .queryParam("start", condition.getStart())
-                        .queryParam("display", condition.getDisplay())
-                        .queryParam("sort",condition.getSort())
-                        .build())
+                .uri("https://openapi.naver.com/v1/search/book.json?query={query}&start={start}&display={display}&sort={sort}",
+                        condition.getQuery(), condition.getStart(), condition.getDisplay(), condition.getSort())
                 .header("X-Naver-Client-Id", clientId)
                 .header("X-Naver-Client-Secret", clientSecret)
                 .retrieve()
@@ -34,4 +33,19 @@ public class NaverApiClient {
                 .block();
     }
 
+    public NaverBookRssResponse fetchBookXml(String isbn) {
+        String xml = webClient.get()
+                .uri("https://openapi.naver.com/v1/search/book_adv.xml?d_isbn={isbn}", isbn)
+                .header("X-Naver-Client-Id", clientId)
+                .header("X-Naver-Client-Secret", clientSecret)
+                .retrieve()
+                .bodyToMono(String.class)
+                .block();
+
+        try {
+            return xmlMapper.readValue(xml, NaverBookRssResponse.class);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
