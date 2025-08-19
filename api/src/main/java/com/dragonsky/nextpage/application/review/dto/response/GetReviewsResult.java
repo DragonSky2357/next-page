@@ -7,7 +7,7 @@ import lombok.Getter;
 @Getter
 @Builder
 @AllArgsConstructor
-public class GetReviewResult {
+public class GetReviewsResult {
     private Long reviewId;
     private Long writerId;
     private String nickname;

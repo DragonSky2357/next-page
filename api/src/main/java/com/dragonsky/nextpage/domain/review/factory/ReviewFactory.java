@@ -1,6 +1,7 @@
 package com.dragonsky.nextpage.domain.review.factory;
 
 import com.dragonsky.nextpage.application.review.dto.request.CreateReviewInput;
+import com.dragonsky.nextpage.domain.book.entity.Book;
 import com.dragonsky.nextpage.domain.member.entity.Member;
 import com.dragonsky.nextpage.domain.review.entity.Review;
 import com.dragonsky.nextpage.domain.review.model.category.Category;
@@ -16,11 +17,12 @@ import java.util.List;
 @Component
 public class ReviewFactory {
 
-    public Review create(CreateReviewInput input, Member member) {
+    public Review create(CreateReviewInput input, Member member, Book book) {
         validateInput(input);
 
         return Review.builder()
                 .author(member)
+                .book(book)
                 .title(input.title())
                 .content(input.content())
                 .rating(input.rating())

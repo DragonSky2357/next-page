@@ -6,20 +6,27 @@
 <mapper namespace="com.dragonsky.nextpage.infra.review.mybatis.mapper.ReviewMapper">
 
     <select id="searchReviews" parameterType="com.dragonsky.nextpage.presentation.review.dto.request.ReviewSearchCondition"
-            resultType="com.dragonsky.nextpage.domain.review.vo.ReviewDetail">
+            resultType="com.dragonsky.nextpage.domain.review.dto.response.GetReviewsDto">
 
-        SELECT r.id         AS reviewId  /* 리뷰 ID*/
-             , r.title      AS title     /* 리뷰 제목 */
-             , r.content    AS content   /* 리뷰 내용(html) */
-             , r.status     AS status    /* 리뷰 상태(읽음, 완독...)*/
-             , r.category   AS category  /* 리뷰 분류(소설, 과학, 문학...)*/
-             , r.tag        AS tag       /* 리뷰 태그(난이도, 분량...)*/
-             , r.created_at AS createdAt /* 리뷰 작성일 */
-             , m.id         AS authorId  /* 리뷰 작성자 ID */
-             , m.nickname   AS nickname  /* 리뷰 작성자 닉네임 */
+        SELECT r.id         AS reviewId        /* 리뷰 ID*/
+             , r.title      AS reviewTitle     /* 리뷰 제목 */
+             , r.content    AS reviewContent   /* 리뷰 내용(html) */
+             , r.status     AS status          /* 리뷰 상태(읽음, 완독...)*/
+             , r.category   AS category        /* 리뷰 분류(소설, 과학, 문학...)*/
+             , r.tag        AS tag             /* 리뷰 태그(난이도, 분량...)*/
+             , r.created_at AS createdAt       /* 리뷰 작성일 */
+             , m.id         AS writerId        /* 리뷰 작성자 ID */
+             , m.nickname   AS nickname        /* 리뷰 작성자 닉네임 */
+             , b.id         AS bookId          /* 도서 ID */
+             , b.title      AS bookTitle       /* 도서 제목 */
+             , b.author     AS bookAuthor      /* 도서 작가명 */
+             , b.pub_date   AS bookPubDate     /* 도서 출판일 */
+             , b.publisher  AS bookPublisher   /* 도서 출판사 */
           FROM review r /* 리뷰 */
          INNER JOIN member m /* 멤버 */
             ON r.author_id = m.id
+         INNER JOIN book b /* 도서 */
+            ON r.book_id = b.id
          WHERE 1=1
          <if test="status != null and status != ''">
            AND r.status = #{status}

@@ -1,5 +1,6 @@
 package com.dragonsky.nextpage.infra.review.reader;
 
+import com.dragonsky.nextpage.domain.review.dto.response.GetReviewsDto;
 import com.dragonsky.nextpage.domain.review.entity.Review;
 import com.dragonsky.nextpage.domain.review.repository.reader.ReviewReader;
 import com.dragonsky.nextpage.domain.review.vo.ReviewDetail;
@@ -25,7 +26,7 @@ public class ReviewReaderImpl implements ReviewReader {
     }
 
     @Override
-    public List<ReviewDetail> read(ReviewSearchCondition condition) {
+    public List<GetReviewsDto> read(ReviewSearchCondition condition) {
         return reviewMapper.searchReviews(condition);
     }
 

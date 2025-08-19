@@ -9,6 +9,7 @@ public record CreateReviewInput(
         String category,
         String tag,
         String searchKeywords,
-        Boolean isPrivate
+        Boolean isPrivate,
+        String isbn
 ) {
 }

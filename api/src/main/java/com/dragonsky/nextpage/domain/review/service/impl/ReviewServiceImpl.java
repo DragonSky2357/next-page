@@ -3,8 +3,10 @@ package com.dragonsky.nextpage.domain.review.service.impl;
 import com.dragonsky.nextpage.application.review.dto.request.CreateReviewInput;
 import com.dragonsky.nextpage.application.review.dto.request.ModifyReviewInput;
 import com.dragonsky.nextpage.application.review.dto.request.RemoveReviewInput;
+import com.dragonsky.nextpage.domain.book.entity.Book;
 import com.dragonsky.nextpage.domain.member.entity.Member;
 import com.dragonsky.nextpage.domain.review.converter.ReviewConverter;
+import com.dragonsky.nextpage.domain.review.dto.response.GetReviewsDto;
 import com.dragonsky.nextpage.domain.review.entity.Review;
 import com.dragonsky.nextpage.domain.review.entity.stats.ReviewStats;
 import com.dragonsky.nextpage.domain.review.exception.ReviewErrorCode;
@@ -14,7 +16,6 @@ import com.dragonsky.nextpage.domain.review.repository.reader.ReviewReader;
 import com.dragonsky.nextpage.domain.review.repository.store.ReviewStateStore;
 import com.dragonsky.nextpage.domain.review.repository.store.ReviewStore;
 import com.dragonsky.nextpage.domain.review.service.ReviewService;
-import com.dragonsky.nextpage.domain.review.vo.ReviewDetail;
 import com.dragonsky.nextpage.presentation.review.dto.request.ReviewSearchCondition;
 import com.dragonsky.nextpage.response.PageResult;
 import lombok.RequiredArgsConstructor;
@@ -38,8 +39,8 @@ public class ReviewServiceImpl implements ReviewService {
     private final ReviewConverter reviewConverter;
 
     @Override
-    public Long createReview(CreateReviewInput input, Member member) {
-        Review review = reviewFactory.create(input, member);
+    public Long createReview(CreateReviewInput input, Member member, Book book) {
+        Review review = reviewFactory.create(input, member, book);
         Review savedReview = reviewStore.append(review);
         reviewStateStore.save(new ReviewStats(savedReview));
         return savedReview.getId();
@@ -51,8 +52,8 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public PageResult<ReviewDetail> getReviews(ReviewSearchCondition condition) {
-        List<ReviewDetail> reviews = reviewReader.read(condition);
+    public PageResult<GetReviewsDto> getReviews(ReviewSearchCondition condition) {
+        List<GetReviewsDto> reviews = reviewReader.read(condition);
         long totalCount = reviewReader.count(condition);
         return new PageResult<>(reviews, condition.page(), condition.size(), totalCount);
     }

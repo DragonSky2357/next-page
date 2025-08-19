@@ -27,7 +27,8 @@ public class ReviewPersentationConverter {
                 request.category(),
                 request.tag(),
                 request.searchKeywords(),
-                request.isPrivate()
+                request.isPrivate(),
+                request.isbn()
         );
     }
 

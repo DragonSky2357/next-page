@@ -3,8 +3,9 @@ package com.dragonsky.nextpage.domain.review.service;
 import com.dragonsky.nextpage.application.review.dto.request.CreateReviewInput;
 import com.dragonsky.nextpage.application.review.dto.request.ModifyReviewInput;
 import com.dragonsky.nextpage.application.review.dto.request.RemoveReviewInput;
+import com.dragonsky.nextpage.domain.book.entity.Book;
 import com.dragonsky.nextpage.domain.member.entity.Member;
-import com.dragonsky.nextpage.domain.review.vo.ReviewDetail;
+import com.dragonsky.nextpage.domain.review.dto.response.GetReviewsDto;
 import com.dragonsky.nextpage.domain.review.entity.Review;
 import com.dragonsky.nextpage.presentation.review.dto.request.ReviewSearchCondition;
 import com.dragonsky.nextpage.response.PageResult;
@@ -18,7 +19,7 @@ public interface ReviewService {
      * @param member
      * @return 생성된 리뷰의 ID
      */
-    Long createReview(CreateReviewInput input, Member member);
+    Long createReview(CreateReviewInput input, Member member, Book book);
 
     /**
      * 특정 리뷰를 조회합니다.
@@ -37,7 +38,7 @@ public interface ReviewService {
      * @return 리뷰 정보 리스트
      */
 
-    PageResult<ReviewDetail> getReviews(ReviewSearchCondition condition);
+    PageResult<GetReviewsDto> getReviews(ReviewSearchCondition condition);
 
     /**
      * 기존 리뷰를 수정합니다.

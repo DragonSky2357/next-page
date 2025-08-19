@@ -10,7 +10,8 @@ import lombok.Getter;
 @AllArgsConstructor
 public class ReviewDetailResponse {
     private Long reviewId;
-    private Author author;
+    private Writer writer;
+    private Book book;
     private String title;
     private String content;
     private Integer rating;
@@ -22,18 +23,25 @@ public class ReviewDetailResponse {
     @Getter
     @Builder
     @AllArgsConstructor
-    public static class Author {
+    public static class Writer {
         private Long id;
         private String nickname;
+    }
+
+    @Getter
+    @Builder
+    @AllArgsConstructor
+    public static class Book {
+        private Long id;
+        private String title;
+        private String author;
+        private String pubDate;
+        private String publisher;
     }
 
     public static ReviewDetailResponse from(GetReviewResult result) {
         return ReviewDetailResponse.builder()
                 .reviewId(result.getReviewId())
-                .author(Author.builder()
-                        .id(result.getAuthorId())
-                        .nickname(result.getNickname())
-                        .build())
                 .title(result.getTitle())
                 .content(result.getContent())
                 .rating(result.getRating())
@@ -41,6 +49,17 @@ public class ReviewDetailResponse {
                 .category(result.getCategory())
                 .tag(result.getTag())
                 .isPrivate(result.getIsPrivate())
+                .writer(Writer.builder()
+                        .id(result.getWriterId())
+                        .nickname(result.getNickname())
+                        .build())
+                .book(Book.builder()
+                        .id(result.getBookId())
+                        .title(result.getBookTitle())
+                        .author(result.getAuthor())
+                        .pubDate(result.getPubDate())
+                        .publisher(result.getPublisher())
+                        .build())
                 .build();
     }
 }

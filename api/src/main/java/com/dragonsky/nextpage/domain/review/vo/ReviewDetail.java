@@ -12,10 +12,15 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ReviewDetail {
     private Long reviewId;
-    private Long authorId;
+    private Long writerId;
     private String nickname;
-    private String title;
-    private String content;
+    private Long bookId;
+    private String bookTitle;
+    private String bookAuthor;
+    private String bookPubDate;
+    private String bookPublisher;
+    private String reviewTitle;
+    private String reviewContent;
     private Integer rating;
     private Status status;
     private Category category;

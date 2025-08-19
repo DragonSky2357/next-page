@@ -1,6 +1,7 @@
 package com.dragonsky.nextpage.domain.review.entity;
 
 import com.dragonsky.nextpage.application.review.dto.request.ModifyReviewInput;
+import com.dragonsky.nextpage.domain.book.entity.Book;
 import com.dragonsky.nextpage.domain.entity.BaseEntity;
 import com.dragonsky.nextpage.domain.member.entity.Member;
 import com.dragonsky.nextpage.domain.review.entity.stats.ReviewStats;
@@ -33,6 +34,10 @@ public class Review extends BaseEntity {
     @JoinColumn(name = "author_id", nullable = false)
     private Member author;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "book_id", nullable = false)
+    private Book book;
+
     @Column(nullable = false, length = 50)
     private String title;
 
@@ -60,7 +65,7 @@ public class Review extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private Tag tag;
 
-    @Column(name = "is_private", nullable = false, columnDefinition = "DEFAULT FALSE")
+    @Column(name = "is_private", nullable = false, columnDefinition = "BOOLEAN DEFAULT TRUE")
     private Boolean isPrivate;
 
     @OneToOne(mappedBy = "review", cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)

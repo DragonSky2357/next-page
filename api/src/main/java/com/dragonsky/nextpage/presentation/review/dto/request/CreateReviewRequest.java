@@ -29,7 +29,9 @@ public record CreateReviewRequest(
         String tag,
 
         @NotNull(message = "공개 여부를 선택해주세요.")
-        Boolean isPrivate
+        Boolean isPrivate,
 
+        @NotNull(message = "ISBN은 필수 항목입니다.")
+        String isbn
 ) {
 }

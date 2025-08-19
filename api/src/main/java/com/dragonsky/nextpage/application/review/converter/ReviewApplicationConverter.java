@@ -2,8 +2,9 @@ package com.dragonsky.nextpage.application.review.converter;
 
 import com.dragonsky.nextpage.application.review.dto.response.CreateReviewResult;
 import com.dragonsky.nextpage.application.review.dto.response.GetReviewResult;
+import com.dragonsky.nextpage.application.review.dto.response.GetReviewsResult;
+import com.dragonsky.nextpage.domain.review.dto.response.GetReviewsDto;
 import com.dragonsky.nextpage.domain.review.entity.Review;
-import com.dragonsky.nextpage.domain.review.vo.ReviewDetail;
 import com.dragonsky.nextpage.mapper.EnumMapper;
 import com.dragonsky.nextpage.response.PageResult;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -29,8 +30,13 @@ public class ReviewApplicationConverter {
     public GetReviewResult toResult(Review review) {
         return GetReviewResult.builder()
                 .reviewId(review.getId())
-                .authorId(review.getAuthor().getId())
+                .writerId(review.getAuthor().getId())
                 .nickname(review.getAuthor().getNickname())
+                .bookId(review.getBook().getId())
+                .bookTitle(review.getBook().getTitle())
+                .author(review.getBook().getAuthor())
+                .pubDate(String.valueOf(review.getBook().getPubDate()))
+                .publisher(review.getBook().getPublisher())
                 .title(review.getTitle())
                 .content(review.getContent())
                 .rating(review.getRating())
@@ -41,14 +47,19 @@ public class ReviewApplicationConverter {
                 .build();
     }
 
-    public PageResult<GetReviewResult> toResult(PageResult<ReviewDetail> reviews) {
-        List<GetReviewResult> resultList = reviews.content().stream()
-                .map(review -> GetReviewResult.builder()
+    public PageResult<GetReviewsResult> toResult(PageResult<GetReviewsDto> reviews) {
+        List<GetReviewsResult> resultList = reviews.content().stream()
+                .map(review -> GetReviewsResult.builder()
                         .reviewId(review.getReviewId())
-                        .authorId(review.getAuthorId())
+                        .writerId(review.getWriterId())
                         .nickname(review.getNickname())
-                        .title(review.getTitle())
-                        .content(review.getContent())
+                        .bookId(review.getBookId())
+                        .bookTitle(review.getBookTitle())
+                        .author(review.getBookAuthor())
+                        .pubDate(review.getBookPubDate())
+                        .publisher(review.getBookPublisher())
+                        .title(review.getReviewTitle())
+                        .content(review.getReviewContent())
                         .rating(review.getRating())
                         .status(String.valueOf(review.getStatus()))
                         .category(String.valueOf(review.getCategory()))
