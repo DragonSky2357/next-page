@@ -3,10 +3,10 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.dragonsky.nextpage.infra.review.mybatis.mapper.ReviewMapper">
+<mapper namespace="com.dragonsky.nextpage.review.infra.mybatis.mapper.ReviewMapper">
 
-    <select id="searchReviews" parameterType="com.dragonsky.nextpage.presentation.review.dto.request.ReviewSearchCondition"
-            resultType="com.dragonsky.nextpage.domain.review.dto.response.GetReviewsDto">
+    <select id="searchReviews" parameterType="com.dragonsky.nextpage.review.presentation.dto.request.ReviewSearchCondition"
+            resultType="com.dragonsky.nextpage.review.domain.dto.response.GetReviewsDto">
 
         SELECT r.id         AS reviewId        /* 리뷰 ID*/
              , r.title      AS reviewTitle     /* 리뷰 제목 */
@@ -51,7 +51,7 @@
         LIMIT #{size} OFFSET #{offset}
     </select>
 
-    <select id="countReviews" parameterType="com.dragonsky.nextpage.presentation.review.dto.request.ReviewSearchCondition"
+    <select id="countReviews" parameterType="com.dragonsky.nextpage.review.presentation.dto.request.ReviewSearchCondition"
             resultType="int">
         SELECT COUNT(1)
           FROM review r /* 리뷰 */

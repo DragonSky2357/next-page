@@ -1,0 +1,52 @@
+package com.dragonsky.nextpage.review.infra.reader;
+
+import com.dragonsky.nextpage.review.domain.dto.response.GetReviewsDto;
+import com.dragonsky.nextpage.review.domain.entity.Review;
+import com.dragonsky.nextpage.review.domain.repository.reader.ReviewReader;
+import com.dragonsky.nextpage.review.domain.vo.ReviewDetail;
+import com.dragonsky.nextpage.review.infra.jpa.ReviewJpaRepository;
+import com.dragonsky.nextpage.review.infra.mybatis.mapper.ReviewMapper;
+import com.dragonsky.nextpage.review.presentation.dto.request.ReviewSearchCondition;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+import java.util.Optional;
+
+@Repository
+@RequiredArgsConstructor
+public class ReviewReaderImpl implements ReviewReader {
+
+    private final ReviewJpaRepository reviewJpaRepository;
+    private final ReviewMapper reviewMapper;
+
+    @Override
+    public Optional<Review> read(Long reviewId) {
+        return reviewJpaRepository.findById(reviewId);
+    }
+
+    @Override
+    public List<GetReviewsDto> read(ReviewSearchCondition condition) {
+        return reviewMapper.searchReviews(condition);
+    }
+
+    @Override
+    public long count(ReviewSearchCondition condition) {
+        return reviewMapper.countReviews(condition);
+    }
+
+    @Override
+    public List<ReviewDetail> readAllWithDetails() {
+        return List.of();
+    }
+
+    @Override
+    public List<Review> readByTitle(String title) {
+        return List.of();
+    }
+
+    @Override
+    public List<Review> search(String keyword) {
+        return List.of();
+    }
+}
