@@ -1,24 +1,27 @@
 package com.dragonsky.nextpage.review.presentation.converter;
 
+import com.dragonsky.nextpage.config.security.auth.AuthUser;
+import com.dragonsky.nextpage.response.PageResult;
 import com.dragonsky.nextpage.review.application.dto.request.CreateReviewInput;
 import com.dragonsky.nextpage.review.application.dto.request.ModifyReviewInput;
 import com.dragonsky.nextpage.review.application.dto.request.RemoveReviewInput;
 import com.dragonsky.nextpage.review.application.dto.response.CreateReviewResult;
 import com.dragonsky.nextpage.review.application.dto.response.GetReviewResult;
 import com.dragonsky.nextpage.review.application.dto.response.GetReviewsResult;
-import com.dragonsky.nextpage.config.security.auth.AuthUser;
 import com.dragonsky.nextpage.review.presentation.dto.request.CreateReviewRequest;
 import com.dragonsky.nextpage.review.presentation.dto.request.ModifyReviewRequest;
 import com.dragonsky.nextpage.review.presentation.dto.response.CreateReviewApiResponse;
 import com.dragonsky.nextpage.review.presentation.dto.response.ReviewDetailResponse;
 import com.dragonsky.nextpage.review.presentation.dto.response.ReviewListResponse;
-import com.dragonsky.nextpage.response.PageResult;
 import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 @Component
 public class ReviewPersentationConverter {
 
-    public CreateReviewInput fromRequest(CreateReviewRequest request, AuthUser user) {
+    public CreateReviewInput fromRequest(AuthUser user, CreateReviewRequest request, List<MultipartFile> images) {
         return new CreateReviewInput(
                 user.getId(),
                 request.title(),
@@ -29,7 +32,8 @@ public class ReviewPersentationConverter {
                 request.tag(),
                 request.searchKeywords(),
                 request.isPrivate(),
-                request.isbn()
+                request.isbn(),
+                images
         );
     }
 

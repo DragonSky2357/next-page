@@ -1,21 +1,25 @@
-package com.dragonsky.nextpage.presentation.review.controller;
+package com.dragonsky.nextpage.review.presentation;
 
-import com.dragonsky.nextpage.application.review.ReviewApplication;
+import com.dragonsky.nextpage.auth.domain.annotation.AuthenticatedUser;
 import com.dragonsky.nextpage.config.security.auth.AuthUser;
-import com.dragonsky.nextpage.domain.auth.annotation.AuthenticatedUser;
-import com.dragonsky.nextpage.presentation.review.converter.ReviewPersentationConverter;
-import com.dragonsky.nextpage.presentation.review.dto.request.CreateReviewRequest;
-import com.dragonsky.nextpage.presentation.review.dto.request.ModifyReviewRequest;
-import com.dragonsky.nextpage.presentation.review.dto.request.ReviewSearchCondition;
-import com.dragonsky.nextpage.presentation.review.dto.response.CreateReviewApiResponse;
-import com.dragonsky.nextpage.presentation.review.dto.response.ReviewDetailResponse;
-import com.dragonsky.nextpage.presentation.review.dto.response.ReviewListResponse;
 import com.dragonsky.nextpage.response.ApiResponse;
+import com.dragonsky.nextpage.review.application.ReviewApplication;
+import com.dragonsky.nextpage.review.presentation.converter.ReviewPersentationConverter;
+import com.dragonsky.nextpage.review.presentation.dto.request.CreateReviewRequest;
+import com.dragonsky.nextpage.review.presentation.dto.request.ModifyReviewRequest;
+import com.dragonsky.nextpage.review.presentation.dto.request.ReviewSearchCondition;
+import com.dragonsky.nextpage.review.presentation.dto.response.CreateReviewApiResponse;
+import com.dragonsky.nextpage.review.presentation.dto.response.ReviewDetailResponse;
+import com.dragonsky.nextpage.review.presentation.dto.response.ReviewListResponse;
+import com.dragonsky.nextpage.util.File.validation.Images;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/reviews")
@@ -27,10 +31,11 @@ public class ReviewController {
 
     @PostMapping
     public ResponseEntity<ApiResponse<CreateReviewApiResponse>> createReview(
-            @Valid @RequestBody CreateReviewRequest request,
+            @Valid @RequestPart("review") CreateReviewRequest request,
+            @Images @RequestPart(value = "images", required = false) List<MultipartFile> images,
             @AuthenticatedUser AuthUser user
     ) {
-        var input = reviewConverter.fromRequest(request, user);
+        var input = reviewConverter.fromRequest(user, request, images);
         var result = reviewApplication.createReview(input);
         var response = reviewConverter.toResponse(result);
 
