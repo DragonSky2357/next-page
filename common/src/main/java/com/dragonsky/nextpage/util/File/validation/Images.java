@@ -15,7 +15,7 @@ public @interface Images {
     String message() default "허용되지 않는 이미지 형식 또는 개수 초과";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
-    String[] allowedExtensions() default { "jpg", "jpeg", "png", "gif" };
+    String[] allowedExtensions() default { "jpg", "jpeg", "png", "gif", "webp" };
     long maxSize() default 10 * 1024 * 1024; // 10MB
     int maxCount() default 3;
 }
