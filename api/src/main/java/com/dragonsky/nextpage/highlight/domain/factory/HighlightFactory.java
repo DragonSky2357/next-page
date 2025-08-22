@@ -3,7 +3,7 @@ package com.dragonsky.nextpage.highlight.domain.factory;
 import com.dragonsky.nextpage.book.domain.entity.Book;
 import com.dragonsky.nextpage.exception.FieldError;
 import com.dragonsky.nextpage.exception.ValidationException;
-import com.dragonsky.nextpage.highlight.application.dto.request.CreateHighlightInput;
+import com.dragonsky.nextpage.highlight.application.dto.input.CreateHighlightInput;
 import com.dragonsky.nextpage.highlight.domain.entity.Highlight;
 import com.dragonsky.nextpage.member.domain.entity.Member;
 import org.springframework.stereotype.Component;
@@ -16,12 +16,12 @@ public class HighlightFactory {
 
     private static final int MAX_TAG_COUNT = 5;
 
-    public Highlight create(Book book, Member member, CreateHighlightInput input) {
+    public Highlight create(Member writer, Book book, CreateHighlightInput input) {
         validateInput(input);
 
         return Highlight.builder()
+                .writer(writer)
                 .book(book)
-                .member(member)
                 .content(input.content().trim())
                 .page(input.page())
 //              .tags(input.tags()) TODO Tag 생성이후 확인 필요

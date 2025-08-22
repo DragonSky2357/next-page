@@ -1,11 +1,11 @@
 package com.dragonsky.nextpage.review.domain.service.impl;
 
+import com.dragonsky.nextpage.book.domain.entity.Book;
+import com.dragonsky.nextpage.member.domain.entity.Member;
+import com.dragonsky.nextpage.response.PageResult;
 import com.dragonsky.nextpage.review.application.dto.request.CreateReviewInput;
 import com.dragonsky.nextpage.review.application.dto.request.ModifyReviewInput;
 import com.dragonsky.nextpage.review.application.dto.request.RemoveReviewInput;
-import com.dragonsky.nextpage.book.domain.entity.Book;
-import com.dragonsky.nextpage.member.domain.entity.Member;
-import com.dragonsky.nextpage.review.domain.converter.ReviewConverter;
 import com.dragonsky.nextpage.review.domain.dto.response.GetReviewsDto;
 import com.dragonsky.nextpage.review.domain.entity.Review;
 import com.dragonsky.nextpage.review.domain.entity.stats.ReviewStats;
@@ -17,7 +17,6 @@ import com.dragonsky.nextpage.review.domain.repository.store.ReviewStateStore;
 import com.dragonsky.nextpage.review.domain.repository.store.ReviewStore;
 import com.dragonsky.nextpage.review.domain.service.ReviewService;
 import com.dragonsky.nextpage.review.presentation.dto.request.ReviewSearchCondition;
-import com.dragonsky.nextpage.response.PageResult;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -36,7 +35,6 @@ public class ReviewServiceImpl implements ReviewService {
     private final ReviewReader reviewReader;
     private final ReviewStore reviewStore;
     private final ReviewStateStore reviewStateStore;
-    private final ReviewConverter reviewConverter;
 
     @Override
     public Long createReview(CreateReviewInput input, Member member, Book book) {

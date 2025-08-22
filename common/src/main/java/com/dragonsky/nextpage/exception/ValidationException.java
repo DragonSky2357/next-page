@@ -1,7 +1,10 @@
 package com.dragonsky.nextpage.exception;
 
+import lombok.Getter;
+
 import java.util.List;
 
+@Getter
 public class ValidationException extends RuntimeException {
     private final List<FieldError> fieldErrors;
 
@@ -10,8 +13,5 @@ public class ValidationException extends RuntimeException {
         this.fieldErrors = fieldErrors;
     }
 
-    public List<FieldError> getFieldErrors() {
-        return fieldErrors;
-    }
 }
 

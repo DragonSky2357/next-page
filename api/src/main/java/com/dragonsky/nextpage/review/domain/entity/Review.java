@@ -71,11 +71,6 @@ public class Review extends BaseEntity {
     @OneToOne(mappedBy = "review", cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
     private ReviewStats stats;
 
-    public void setStats(ReviewStats stats) {
-        this.stats = stats;
-        stats.setReview(this);
-    }
-
     public void update(ModifyReviewInput input) {
         this.title = input.title();
         this.content = input.content();

@@ -1,11 +1,14 @@
 package com.dragonsky.nextpage.highlight.domain.service.impl;
 
 import com.dragonsky.nextpage.book.domain.entity.Book;
-import com.dragonsky.nextpage.highlight.application.dto.request.CreateHighLightInput;
-import com.dragonsky.nextpage.highlight.application.dto.request.CreateHighlightInput;
+import com.dragonsky.nextpage.highlight.application.dto.input.CreateHighlightInput;
+import com.dragonsky.nextpage.highlight.application.dto.input.HighlightSearchInput;
+import com.dragonsky.nextpage.highlight.application.dto.input.ModifyHighlightInput;
 import com.dragonsky.nextpage.highlight.domain.converter.HighlightConverter;
 import com.dragonsky.nextpage.highlight.domain.entity.Highlight;
 import com.dragonsky.nextpage.highlight.domain.entity.HighlightStats;
+import com.dragonsky.nextpage.highlight.domain.exception.HighlightErrorCode;
+import com.dragonsky.nextpage.highlight.domain.exception.HighlightException;
 import com.dragonsky.nextpage.highlight.domain.factory.HighlightFactory;
 import com.dragonsky.nextpage.highlight.domain.repository.reader.HightlightReader;
 import com.dragonsky.nextpage.highlight.domain.repository.store.HighlightStateStore;
@@ -18,6 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Objects;
 
 @Slf4j
 @Service
@@ -29,33 +33,54 @@ public class HighlightServiceImpl implements HighlightService {
     private final HightlightReader hightLightReader;
     private final HighlightStore highlightStore;
     private final HighlightStateStore highlightStateStore;
-    private final HighlightConverter highlightConverter;
 
     @Override
-    public Highlight createHighlight(Book book, Member member, CreateHighlightInput input) {
-        Highlight highlight = highlightFactory.create(book, member, input);
+    public Highlight createHighlight(Member member, Book book, CreateHighlightInput input) {
+        Highlight highlight = highlightFactory.create(member, book, input);
         Highlight savedHighlight = highlightStore.save(highlight);
         highlightStateStore.save(new HighlightStats(savedHighlight));
         return savedHighlight;
     }
 
     @Override
-    public Highlight getHighlight(Long HighlightId) {
-        return null;
+    public Highlight getHighlight(Long highlightId) {
+        return getHighlightById(highlightId);
     }
 
+    // TODO : CRUD 이후 작업
     @Override
-    public List<Highlight> getHighlights(HighLightSearchRequest request) {
+    public List<Highlight> getHighlights(HighlightSearchInput request) {
         return List.of();
     }
 
     @Override
-    public Highlight modifyHighlight(Member member, ModifyHighlightInput input) {
-        return null;
+    public void modifyHighlight(Long highlightId, Member member, Book book, ModifyHighlightInput input) {
+        Highlight highlight = getHighlight(highlightId);
+
+        Member writer = highlight.getWriter();
+        validateWriter(highlight, writer);
+
+        highlight.update(book, input);
     }
 
     @Override
-    public void removeHighlight(Long id) {
+    public void removeHighlight(Long highlightId) {
+        Highlight highlight = getHighlight(highlightId);
 
+        Member writer = highlight.getWriter();
+        validateWriter(highlight, writer);
+
+        highlightStore.remove(highlight);
+    }
+
+    private Highlight getHighlightById(Long highlightId){
+        return hightLightReader.read(highlightId)
+                .orElseThrow(() -> new HighlightException(HighlightErrorCode.HIGHLIGHT_NOT_FOUND));
+    }
+
+    private void validateWriter(Highlight highlight, Member member){
+        if(!highlight.isOwner(member)){
+            throw new HighlightException(HighlightErrorCode.UNAUTHORIZED_HIGHLIGHT_REMOVE);
+        }
     }
 }

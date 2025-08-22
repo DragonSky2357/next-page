@@ -12,6 +12,9 @@ import java.time.LocalDateTime;
 @Getter
 public class HighlightStats extends InteractionStats {
 
+    @Id
+    private Long id;
+
     @MapsId
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id")

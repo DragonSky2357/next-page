@@ -1,4 +1,4 @@
-package com.dragonsky.nextpage.highlight.application.dto.request;
+package com.dragonsky.nextpage.highlight.application.dto.input;
 
 public record CreateHighlightInput(
         String content,

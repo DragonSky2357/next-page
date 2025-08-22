@@ -10,6 +10,8 @@ import lombok.Setter;
 @Table(name = "review_stats")
 @Getter
 public class ReviewStats extends InteractionStats {
+    @Id
+    private Long id;
 
     @MapsId
     @OneToOne(fetch = FetchType.LAZY)
