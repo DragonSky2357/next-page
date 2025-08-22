@@ -11,10 +11,6 @@ import lombok.Setter;
 @Getter
 public class ReviewStats extends InteractionStats {
 
-    @Id
-    private Long id;
-
-    @Setter
     @MapsId
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id")

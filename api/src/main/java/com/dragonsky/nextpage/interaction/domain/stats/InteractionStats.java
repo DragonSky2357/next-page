@@ -8,13 +8,13 @@ import lombok.Getter;
 @MappedSuperclass
 public abstract class InteractionStats {
 
-    @Column(nullable = false)
+    @Column(name = "like_count", nullable = false)
     protected int likeCount = 0;
 
-    @Column(nullable = false)
+    @Column(name = "report_count", nullable = false)
     protected int reportCount = 0;
 
-    @Column(nullable = false)
+    @Column(name = "view_count", nullable = false)
     protected int viewCount = 0;
 
     public void increaseLikeCount(int count) {
