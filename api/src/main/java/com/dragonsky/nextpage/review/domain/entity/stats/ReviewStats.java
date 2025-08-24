@@ -13,6 +13,7 @@ public class ReviewStats extends InteractionStats {
     @Id
     private Long id;
 
+    @Setter
     @MapsId
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id")
@@ -40,4 +41,5 @@ public class ReviewStats extends InteractionStats {
     public void decreaseCommentCount(int count) {
         this.commentCount = Math.max(0, this.commentCount - count); // 수정됨
     }
+
 }

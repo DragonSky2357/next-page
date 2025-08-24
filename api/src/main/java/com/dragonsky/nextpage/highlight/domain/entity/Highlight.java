@@ -1,6 +1,7 @@
 package com.dragonsky.nextpage.highlight.domain.entity;
 
 import com.dragonsky.nextpage.book.domain.entity.Book;
+import com.dragonsky.nextpage.domain.entity.BaseEntity;
 import com.dragonsky.nextpage.exception.FieldError;
 import com.dragonsky.nextpage.exception.ValidationException;
 import com.dragonsky.nextpage.highlight.application.dto.input.ModifyHighlightInput;
@@ -25,7 +26,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @SQLRestriction("is_Active = true AND is_Deleted = false")
-public class Highlight {
+public class Highlight extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

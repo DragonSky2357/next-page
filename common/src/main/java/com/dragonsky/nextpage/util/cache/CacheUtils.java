@@ -1,4 +1,4 @@
-package com.dragonsky.nextpage.util;
+package com.dragonsky.nextpage.util.cache;
 
 import io.micrometer.common.util.StringUtils;
 import org.apache.commons.codec.digest.DigestUtils;

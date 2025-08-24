@@ -53,7 +53,7 @@ public class BookServiceImpl implements BookService {
         return bookReader.getCachedBookByIsbn(normalizedIsbn)
                 .map(converter::from)
                 .or(() -> bookReader.getBookByIsbn(normalizedIsbn))
-                .or(() -> Optional.ofNullable(fetchBookIfNotCached(normalizedIsbn)))
+                .or(() -> Optional.ofNullable(fetchBookIfNotExist(normalizedIsbn)))
                 .orElseThrow(() -> new BookException(BookErrorCode.BOOK_NOT_FOUND));
     }
 
@@ -94,7 +94,7 @@ public class BookServiceImpl implements BookService {
         return fetchedBooks;
     }
 
-    private Book fetchBookIfNotCached(String isbn) {
+    private Book fetchBookIfNotExist(String isbn) {
         // 1. 네이버 API(응답값: xml) 호출
         NaverBookRssResponse fetchedBook = naverApiClient.fetchBookXml(isbn);
 

@@ -4,13 +4,12 @@ import com.dragonsky.nextpage.book.domain.entity.Book;
 import com.dragonsky.nextpage.highlight.application.dto.input.CreateHighlightInput;
 import com.dragonsky.nextpage.highlight.application.dto.input.HighlightSearchInput;
 import com.dragonsky.nextpage.highlight.application.dto.input.ModifyHighlightInput;
-import com.dragonsky.nextpage.highlight.domain.converter.HighlightConverter;
 import com.dragonsky.nextpage.highlight.domain.entity.Highlight;
 import com.dragonsky.nextpage.highlight.domain.entity.HighlightStats;
 import com.dragonsky.nextpage.highlight.domain.exception.HighlightErrorCode;
 import com.dragonsky.nextpage.highlight.domain.exception.HighlightException;
 import com.dragonsky.nextpage.highlight.domain.factory.HighlightFactory;
-import com.dragonsky.nextpage.highlight.domain.repository.reader.HightlightReader;
+import com.dragonsky.nextpage.highlight.domain.repository.reader.HighlightReader;
 import com.dragonsky.nextpage.highlight.domain.repository.store.HighlightStateStore;
 import com.dragonsky.nextpage.highlight.domain.repository.store.HighlightStore;
 import com.dragonsky.nextpage.highlight.domain.service.HighlightService;
@@ -21,7 +20,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Objects;
 
 @Slf4j
 @Service
@@ -30,7 +28,7 @@ import java.util.Objects;
 public class HighlightServiceImpl implements HighlightService {
 
     private final HighlightFactory highlightFactory;
-    private final HightlightReader hightLightReader;
+    private final HighlightReader highLightReader;
     private final HighlightStore highlightStore;
     private final HighlightStateStore highlightStateStore;
 
@@ -74,7 +72,7 @@ public class HighlightServiceImpl implements HighlightService {
     }
 
     private Highlight getHighlightById(Long highlightId){
-        return hightLightReader.read(highlightId)
+        return highLightReader.read(highlightId)
                 .orElseThrow(() -> new HighlightException(HighlightErrorCode.HIGHLIGHT_NOT_FOUND));
     }
 
